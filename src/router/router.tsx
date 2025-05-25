@@ -1,5 +1,4 @@
 import React from 'react'
-import Login from '../pages/Login'
 import Shop from '../pages/Shop'
 
 
@@ -9,15 +8,11 @@ interface IRoute {
 }
 
 export enum routesNames {
-    LOGIN = '/login',
     SHOP = '/shop'
 }
 
 
-export const publicRoutes: IRoute[] = [
-    { path: routesNames.LOGIN, component: Login },
-]
 
-export const privateRoutes: IRoute[] = [
+export const mainPage: IRoute[] = [
     { path: routesNames.SHOP, component: Shop },
 ]

@@ -5,85 +5,13 @@
     font-family: 'Segoe UI', 'Roboto', sans-serif !important;
 }
 
-:root {
-    --primary-green: #2f5d50;
-    --light-green: #d8ead8;
-    --background: #d8ead8;
-    --text-dark: #1d2e29;
-    --text-light: #5f7c74;
-    --button-green: #3d7c64;
-    --white: #ffffff;
-    --form-background: #adce99;
-
+input::placeholder {
+    transition-duration: .3s;
+    z-index: 1;
 }
 
-body,
-#root,
-.ant-layout {
-    background-color: var(--background) !important;
-    font-family: 'Segoe UI', 'Roboto', sans-serif !important;
-}
-
-.ant-menu,
-.ant-menu-item,
-.ant-col,
-.ant-layout-content {
-    font-family: 'Segoe UI', 'Roboto', sans-serif !important;
-}
-
-.ant-layout-header {
-    background-color: var(--primary-green) !important;
-}
-
-.ant-menu-dark {
-    background-color: var(--primary-green) !important;
-}
-
-.ant-menu-dark .ant-menu-item-selected {
-    background-color: var(--button-green) !important;
-}
-
-.ant-col {
-    color: var(--background) !important;
-}
-
-.h100 {
-    height: calc(100vh - 64px);
-}
-
-.ant-card {
-    background-color: var(--form-background) !important;
-}
-
-.login-form {
-    color: var(--text-dark);
-}
-
-.login-form .ant-form-item-label>label {
-    color: var(--text-dark);
-    font-weight: 600;
-}
-
-.login-form .ant-input {
-    border-color: var(--primary-green) !important;
-    color: var(--text-dark);
-    background-color: var(--background) !important;
-    border-radius: 4px;
-}
-
-.login-form .ant-input:focus,
-.login-form .ant-input-focused {
-    border-color: var(--button-green) !important;
-    box-shadow: 0 0 0 2px rgba(61, 124, 100, 0.2);
-}
-
-.login-form .ant-btn-primary {
-    background-color: var(--button-green) !important;
-    color: var(--white) !important;
-}
-
-.login-form .ant-btn-primary:hover,
-.login-form .ant-btn-primary:focus {
-    background-color: var(--primary-green) !important;
-    border-color: var(--primary-green) !important;
+input:focus::placeholder {
+    font-size: 10px;
+    transform: translate(0px, -16px);
+    z-index: 1;
 }
