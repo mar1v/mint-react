@@ -1,15 +1,14 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
-import Shop from '../pages/Shop';
-import Login from '../pages/Login';
-import { privateRoutes, publicRoutes } from '../router/router';
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { privateRoutes, publicRoutes, routesNames } from '../router/router';
+import { useTypedSelector } from '../hooks/useTypedSelector';
 
 const AppRouter = () => {
-    const auth = true;
+    const { isAuth } = useTypedSelector(state => state.auth)
     return (
         <Routes>
             {
-                auth ? (
+                isAuth ? (
                     <>
                         {privateRoutes.map(route =>
                             <Route
@@ -18,7 +17,7 @@ const AppRouter = () => {
                                 element={<route.component />}
                             />
                         )}
-                        <Route path="*" element={<Shop />} />
+                        <Route path='*' element={<Navigate to={routesNames.SHOP} replace />} />
                     </>
 
                 )
@@ -32,7 +31,7 @@ const AppRouter = () => {
                                 element={<route.component />}
                             />
                         )}
-                        <Route path="*" element={<Login />} />
+                        <Route path='*' element={<Navigate to={routesNames.LOGIN} replace />} />
                         )
                     </>
             }

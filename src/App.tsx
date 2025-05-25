@@ -1,11 +1,15 @@
 import React from 'react'
 import AppRouter from './component/AppRouter'
+import './App.css'
+import Navbar from './component/Navbar'
+import { Layout } from 'antd'
 
 const App = () => {
   return (
-    <div>
+    <Layout>
+      <Navbar />
       <AppRouter />
-    </div>
+    </Layout>
   )
 }
 
