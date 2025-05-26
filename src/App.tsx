@@ -1,8 +1,8 @@
 import React from 'react'
 import './App.css'
-import Navbar from './component/Navbar'
+import Navbar from './components/Navbar'
 import { Layout } from 'antd'
-import AppRouter from './component/AppRouter'
+import AppRouter from './components/AppRouter'
 
 const App = () => {
   return (

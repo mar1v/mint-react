@@ -1,7 +1,7 @@
 import { Avatar, Badge, Modal, Space } from 'antd'
 import { ClockCircleOutlined } from '@ant-design/icons'
 import React, { FC } from 'react'
-import { ICart } from '../models/ICart'
+import { ICart } from '../types/models'
 
 const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
     return (

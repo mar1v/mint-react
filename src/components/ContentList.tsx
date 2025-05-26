@@ -1,6 +1,7 @@
 import { Button, Card, Col, Row } from 'antd';
 import React, { FC } from 'react';
-import { products } from '../models/IProduct';
+import { products } from '../constants';
+
 
 
 

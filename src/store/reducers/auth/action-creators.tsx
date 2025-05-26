@@ -1,4 +1,4 @@
-import { IUser } from "../../../models/IUser";
+import { IUser } from "../../../types/models";
 import { AuthActionEnum, SetAuthAction, SetErrorAction, SetIsLoadingAction, SetUserAction } from "./types";
 
 

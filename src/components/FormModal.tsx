@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button, Input, Form, Modal } from 'antd';
 import type { FC } from 'react';
-import type { FormModalProps } from '../models/IForm';
+import type { FormModalProps } from '../types/models';
 
 
 

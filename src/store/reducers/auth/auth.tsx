@@ -1,4 +1,4 @@
-import { IUser } from "../../../models/IUser"
+import { IUser } from "../../../types/models"
 import { AuthAction, AuthActionEnum, AuthState } from "./types"
 
 
