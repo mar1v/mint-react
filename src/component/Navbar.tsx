@@ -1,19 +1,24 @@
-import { Button, Form, Layout, Menu, theme } from 'antd';
+import { Badge, Button, Card, Col, Layout, Menu, Row, theme } from 'antd';
 import React, { useState } from 'react';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    UploadOutlined,
+    ShoppingCartOutlined,
     UserOutlined,
-    VideoCameraOutlined,
+    MenuOutlined
 } from '@ant-design/icons';
 import FormModal from './FormModal';
+import CartModal from './CartModal';
+import Meta from 'antd/es/card/Meta';
+import ContentList from './ContentList';
 
 const { Header, Sider, Content } = Layout;
 
 const Navbar = () => {
     const [collapsed, setCollapsed] = useState(false);
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalFormVisible, setIsModalFormVisible] = useState(false);
+    const [isModalCartVisible, setIsModalCartVisible] = useState(false);
+    const [cartItemsCount, setCartItemsCount] = useState(3);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -25,31 +30,76 @@ const Navbar = () => {
             <Sider trigger={null} collapsible collapsed={collapsed}>
                 <div className="demo-logo-vertical" />
                 <FormModal
-                    visible={isModalVisible}
-                    onCancel={() => setIsModalVisible(false)}
+                    visible={isModalFormVisible}
+                    onCancel={() => setIsModalFormVisible(false)}
+                />
+                <CartModal
+                    isModalVisible={isModalCartVisible}
+                    onCancel={() => setIsModalCartVisible(false)}
                 />
                 <Menu
                     theme="dark"
                     mode="inline"
-                    defaultSelectedKeys={['1']}
+                    selectable={false}
                     items={[
                         {
                             key: '1',
                             icon: <UserOutlined />,
                             label: 'Sign in',
                             onClick: () => {
-                                setIsModalVisible(true);
+                                setIsModalFormVisible(true);
                             },
                         },
                         {
                             key: '2',
-                            icon: <VideoCameraOutlined />,
-                            label: 'nav 2',
+                            icon: <MenuOutlined />,
+                            label: 'Catalogue',
+                            children: [
+                                {
+                                    key: '2-1',
+                                    label: 'Category 1',
+                                },
+                                {
+                                    key: '2-2',
+                                    label: 'Category 2',
+                                },
+                            ]
                         },
                         {
                             key: '3',
-                            icon: <UploadOutlined />,
-                            label: 'nav 3',
+                            icon: (
+                                collapsed
+                                    ?
+                                    <Badge
+                                        count={cartItemsCount}
+                                        size="small"
+                                        offset={[5, 7]}
+                                        style={{
+                                            backgroundColor: '#ff4d4f',
+                                            color: '#fff'
+                                        }}
+                                    >
+                                        <ShoppingCartOutlined />
+                                    </Badge>
+                                    :
+
+                                    <Badge
+                                        count={cartItemsCount}
+                                        size="small"
+                                        offset={[6, -3]}
+                                        style={{
+                                            backgroundColor: '#ff4d4f',
+                                            color: '#fff'
+                                        }}
+                                    >
+                                        <ShoppingCartOutlined />
+                                    </Badge>
+                            ),
+
+                            label: 'Cart',
+                            onClick: () => {
+                                setIsModalCartVisible(true);
+                            },
                         },
                     ]}
                 />
@@ -67,6 +117,8 @@ const Navbar = () => {
                         }}
                     />
                 </Header>
+                <div style={{ fontSize: '24px', fontWeight: 'bold', padding: '16px' }}>
+                    Shop</div>
                 <Content
                     style={{
                         padding: 24,
@@ -77,10 +129,10 @@ const Navbar = () => {
                         overflow: 'auto',
                     }}
                 >
-                    Content
+                    <ContentList />
                 </Content>
             </Layout>
-        </Layout>
+        </Layout >
     );
 };
 
