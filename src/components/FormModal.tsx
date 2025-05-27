@@ -1,6 +1,6 @@
 import React from 'react';
-
-import { Button, Input, Form, Modal } from 'antd';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Modal } from 'antd';
 import type { FC } from 'react';
 import type { FormModalProps } from '../types/models';
 
@@ -13,38 +13,45 @@ export const FormModal: FC<FormModalProps> = ({ visible, onCancel }) => {
             open={visible}
             onCancel={onCancel}
             footer={null}
+            style={{ maxWidth: 360 }}
         >
             <Form
-                name="basic"
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
-                style={{ maxWidth: 600, }}
+                name="login"
                 initialValues={{ remember: true }}
-                autoComplete="off"
+                style={{ maxWidth: 360 }}
             >
                 <Form.Item
                     name="username"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
+                    rules={[{ required: true, message: 'Please input your Username!' }]}
                     style={{ padding: '10px' }}
                 >
-                    <Input placeholder='Username' style={{ height: '45px' }} />
+                    <Input prefix={<UserOutlined />} placeholder="Username" style={{ height: '45px' }} />
                 </Form.Item>
-
                 <Form.Item
                     name="password"
-                    rules={[{ required: true, message: 'Please input your password!' }]}
+                    rules={[{ required: true, message: 'Please input your Password!' }]}
                     style={{ padding: '10px' }}
                 >
-                    <Input.Password placeholder='Password' style={{ height: '45px' }} />
+                    <Input prefix={<LockOutlined />} type="password" placeholder="Password" style={{ height: '45px' }} />
                 </Form.Item>
-
-                <Form.Item label={null}>
-                    <Button type="primary" htmlType="submit" style={{ float: 'right' }}>
-                        Sign in
-                    </Button>
+                <Form.Item style={{ marginBottom: 0 }}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        width: '100%',
+                        padding: '10px',
+                    }}>
+                        <Button type="default" htmlType="button" onClick={onCancel}>
+                            Cancel
+                        </Button>
+                        <Button type="primary" htmlType="submit" style={{ marginRight: '20px' }}>
+                            Sign in
+                        </Button>
+                    </div>
                 </Form.Item>
             </Form>
-        </Modal>
+        </Modal >
     );
 }
 

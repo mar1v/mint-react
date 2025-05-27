@@ -13,10 +13,9 @@ const ContentList: FC = () => {
                     <Card
                         type="inner"
                         hoverable
-                        title={product.title}
                         variant="borderless"
                         style={{ height: '100%', position: 'relative', minHeight: '370px' }}
-                        extra={<Button type="primary">Add to Cart</Button>}
+
                         cover={product.imageUrl && <img
                             alt={product.title}
                             src={product.imageUrl}
@@ -27,13 +26,17 @@ const ContentList: FC = () => {
                             }}
                         />}
                     >
+                        {product.title}
+                        <br />
                         {product.content}
                         <p style={{
                             fontWeight: 'bold',
+                            display: 'flex',
                             position: 'absolute',
-                            bottom: '25px',
+                            bottom: '15px',
                             left: '15px'
                         }}> ${product.price}</p>
+                        {<Button type="primary" style={{ display: 'flex', position: 'absolute', bottom: '15px', right: '15px' }}>Add to Cart</Button>}
                     </Card>
                 </Col>
             ))

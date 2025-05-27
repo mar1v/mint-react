@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Col, Layout, Menu, Row, theme } from 'antd';
+import { Badge, Button, Layout, Menu, theme } from 'antd';
 import React, { useState } from 'react';
 import {
     MenuFoldOutlined,
@@ -9,7 +9,6 @@ import {
 } from '@ant-design/icons';
 import FormModal from './FormModal';
 import CartModal from './CartModal';
-import Meta from 'antd/es/card/Meta';
 import ContentList from './ContentList';
 
 const { Header, Sider, Content } = Layout;
