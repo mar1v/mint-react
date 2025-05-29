@@ -10,6 +10,7 @@ import {
 import FormModal from './FormModal';
 import CartModal from './CartModal';
 import ContentList from './ContentList';
+import { useTypedSelector } from '../hooks/useTypedSelector';
 
 const { Header, Sider, Content } = Layout;
 
@@ -17,11 +18,11 @@ const Navbar = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [isModalFormVisible, setIsModalFormVisible] = useState(false);
     const [isModalCartVisible, setIsModalCartVisible] = useState(false);
-    const [cartItemsCount, setCartItemsCount] = useState(3);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
 
+    const cartItemsCount = useTypedSelector(state => { console.log(state); return state.cart.totalQuantity });
 
 
     return (
@@ -72,7 +73,7 @@ const Navbar = () => {
                                     <Badge
                                         count={cartItemsCount}
                                         size="small"
-                                        offset={[5, 7]}
+                                        offset={[-22, 7]}
                                         style={{
                                             backgroundColor: '#ff4d4f',
                                             color: '#fff'
@@ -85,7 +86,7 @@ const Navbar = () => {
                                     <Badge
                                         count={cartItemsCount}
                                         size="small"
-                                        offset={[6, -3]}
+                                        offset={[-21, -3]}
                                         style={{
                                             backgroundColor: '#ff4d4f',
                                             color: '#fff'

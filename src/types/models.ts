@@ -15,9 +15,15 @@ export interface IProduct {
     price: number;
     imageUrl: string;
 }
-
-
 export interface FormModalProps {
     visible: boolean,
     onCancel: () => void;
+}
+export interface CartItem extends IProduct {
+    quantity: number;
+}
+export interface CartState {
+    items: CartItem[];
+    totalQuantity: number;
+    totalAmount: number;
 }
