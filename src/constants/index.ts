@@ -1,10 +1,5 @@
-export interface IProduct {
-    id: number;
-    title: string;
-    content: string;
-    price: number;
-    imageUrl: string;
-}
+import { IProduct } from "../types/models";
+
 export const products: IProduct[] = [
     { id: 1, title: 'Headphone', content: 'Premium wireless headphones with noise cancellation', price: 99.99, imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop&crop=center' },
     { id: 2, title: 'Keyboard', content: 'Mechanical gaming keyboard with RGB backlighting', price: 129.99, imageUrl: 'https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=300&h=200&fit=crop&crop=center' },

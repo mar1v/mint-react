@@ -1,30 +1,30 @@
-import { Badge, Button, Card, Col, Layout, Menu, Row, theme } from 'antd';
+import { Badge, Button, Input, Layout, Menu, Space, theme } from 'antd';
 import React, { useState } from 'react';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     ShoppingCartOutlined,
     UserOutlined,
-    MenuOutlined
+    MenuOutlined,
+    SearchOutlined
 } from '@ant-design/icons';
 import FormModal from './FormModal';
 import CartModal from './CartModal';
-import Meta from 'antd/es/card/Meta';
 import ContentList from './ContentList';
-
+import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector';
+import { setSearchValue } from '../store/reducers/Search/SearchSlice';
 const { Header, Sider, Content } = Layout;
-
 const Navbar = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [isModalFormVisible, setIsModalFormVisible] = useState(false);
     const [isModalCartVisible, setIsModalCartVisible] = useState(false);
-    const [cartItemsCount, setCartItemsCount] = useState(3);
+    const dispatch = useAppDispatch();
+    const searchValue = useTypedSelector(state => state.search.searchValue);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
 
-
-
+    const cartItemsCount = useTypedSelector(state => { return state.cart.totalQuantity });
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -73,10 +73,10 @@ const Navbar = () => {
                                     <Badge
                                         count={cartItemsCount}
                                         size="small"
-                                        offset={[5, 7]}
+                                        offset={[-22, 7]}
                                         style={{
                                             backgroundColor: '#ff4d4f',
-                                            color: '#fff'
+                                            color: '#fff',
                                         }}
                                     >
                                         <ShoppingCartOutlined />
@@ -86,16 +86,15 @@ const Navbar = () => {
                                     <Badge
                                         count={cartItemsCount}
                                         size="small"
-                                        offset={[6, -3]}
+                                        offset={[-21, -3]}
                                         style={{
                                             backgroundColor: '#ff4d4f',
-                                            color: '#fff'
+                                            color: '#fff',
                                         }}
                                     >
                                         <ShoppingCartOutlined />
                                     </Badge>
                             ),
-
                             label: 'Cart',
                             onClick: () => {
                                 setIsModalCartVisible(true);
@@ -116,6 +115,15 @@ const Navbar = () => {
                             height: 64,
                         }}
                     />
+                    <Space>
+                        <Input
+                            placeholder="Type to search..."
+                            value={searchValue}
+                            onChange={(e) => dispatch(setSearchValue(e.target.value))}
+                            style={{ width: 300, alignItems: 'center' }}
+                        />
+                        <Button icon={<SearchOutlined />} type="primary" onClick={() => dispatch(setSearchValue(searchValue))} />
+                    </Space>
                 </Header>
                 <div style={{ fontSize: '24px', fontWeight: 'bold', padding: '16px' }}>
                     Shop</div>
