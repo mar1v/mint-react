@@ -35,9 +35,6 @@ export const cartSlice = createSlice({
                 if (existingItem.quantity > 1) {
                     state.items = state.items.filter(item => item.id !== id);
                 }
-                else {
-                    state.items = state.items.filter(item => item.id !== id)
-                }
             }
             if (state.items.length === 0 || state.totalQuantity === 0) {
                 state.items = []

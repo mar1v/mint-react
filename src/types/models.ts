@@ -27,3 +27,7 @@ export interface CartState {
     totalQuantity: number;
     totalAmount: number;
 }
+
+export interface SearchState {
+    searchValue: string;
+}

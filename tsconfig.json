@@ -21,17 +21,23 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
+      "@constants": [
+        "src/constants"
+      ],
+      "@constants/*": [
+        "src/constants/*"
+      ],
+      "@types": [
+        "src/types"
+      ],
       "@types/*": [
         "src/types/*"
       ],
-      "@/*": [
-        "src/*"
-      ]
-    },
-    "baseUrl": ".",
-    "paths": {
-      "@types/*": [
-        "src/types/*"
+      "@store": [
+        "src/store"
+      ],
+      "@store/*": [
+        "src/store/*"
       ],
       "@/*": [
         "src/*"

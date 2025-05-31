@@ -91,7 +91,6 @@ const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
                     ))
                 )
             }
-
         </Modal >
     )
 }
