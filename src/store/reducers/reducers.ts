@@ -1,3 +1,4 @@
+import { productsApi } from "../../api/productsApi";
 import { authReducer } from "./auth/auth";
 import { cartReducer } from "./CartSlice/CartSlice";
 import { searchReducer } from "./Search/SearchSlice";
@@ -6,5 +7,6 @@ import { searchReducer } from "./Search/SearchSlice";
 export const reducers = {
     auth: authReducer,
     cart: cartReducer,
-    search: searchReducer
+    search: searchReducer,
+    [productsApi.reducerPath]: productsApi.reducer
 }

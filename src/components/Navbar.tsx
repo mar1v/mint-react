@@ -14,17 +14,18 @@ import ContentList from './ContentList';
 import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector';
 import { setSearchValue } from '../store/reducers/Search/SearchSlice';
 const { Header, Sider, Content } = Layout;
+
 const Navbar = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [isModalFormVisible, setIsModalFormVisible] = useState(false);
     const [isModalCartVisible, setIsModalCartVisible] = useState(false);
     const dispatch = useAppDispatch();
     const searchValue = useTypedSelector(state => state.search.searchValue);
+    const cartItemsCount = useTypedSelector(state => { return state.cart.totalQuantity });
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
 
-    const cartItemsCount = useTypedSelector(state => { return state.cart.totalQuantity });
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -82,7 +83,6 @@ const Navbar = () => {
                                         <ShoppingCartOutlined />
                                     </Badge>
                                     :
-
                                     <Badge
                                         count={cartItemsCount}
                                         size="small"
@@ -115,14 +115,28 @@ const Navbar = () => {
                             height: 64,
                         }}
                     />
-                    <Space>
-                        <Input
+                    <Space style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px' }}>
+                        <Input.Search
                             placeholder="Type to search..."
                             value={searchValue}
+                            size="large"
+                            style={{
+                                width: 300,
+                                alignItems: 'center',
+                            }}
                             onChange={(e) => dispatch(setSearchValue(e.target.value))}
-                            style={{ width: 300, alignItems: 'center' }}
+                            enterButton={
+                                <Button
+                                    type="primary"
+                                    icon={<SearchOutlined />}
+                                    style={{
+                                        backgroundColor: '#595959',
+                                        borderColor: '#595959',
+                                    }}
+                                />
+                            }
+
                         />
-                        <Button icon={<SearchOutlined />} type="primary" onClick={() => dispatch(setSearchValue(searchValue))} />
                     </Space>
                 </Header>
                 <div style={{ fontSize: '24px', fontWeight: 'bold', padding: '16px' }}>

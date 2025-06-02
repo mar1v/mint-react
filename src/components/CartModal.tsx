@@ -1,22 +1,25 @@
 import { Button, Modal } from 'antd'
 import React, { FC } from 'react'
-import { ICart, IProduct } from '../types/models'
+import { ICart, IProduct, CartItem } from '../types/models'
 import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector'
 import { clearCart, removeItem, updateQuantity } from '../store/reducers/CartSlice/CartSlice'
-
 
 const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
     const dispatch = useAppDispatch()
     const items = useTypedSelector(state => state.cart)
+
     const handleRemoveFromCart = (products: IProduct) => {
         dispatch(removeItem(products));
     };
+
     const handleUpdateQuantity = (productId: number, quantity: number) => {
         dispatch(updateQuantity({ id: productId, quantity }));
     };
+
     const handleClearCart = () => {
         dispatch(clearCart());
     }
+
     return (
         <Modal
             title="Cart"
@@ -58,7 +61,7 @@ const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
                         <p style={{ fontStyle: 'italic' }}> Your cart is empty</p>
                     </div>
                 ) : (
-                    items.items.map((item) => (
+                    items.items.map((item: CartItem) => (
                         <div
                             key={item.id}
                             style={{
@@ -70,9 +73,9 @@ const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
                         >
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <img
-                                    src={item.imageUrl}
+                                    src={item.images}
                                     alt={item.title}
-                                    style={{ width: '50px', height: '50px', marginRight: '10px' }}
+                                    style={{ width: '50px', height: '50px', marginRight: '10px', objectFit: 'cover' }}
                                 />
                                 <div>
                                     <p>{item.title}</p>
@@ -91,10 +94,8 @@ const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
                     ))
                 )
             }
-        </Modal >
+        </Modal>
     )
 }
 
 export default CartModal
-
-

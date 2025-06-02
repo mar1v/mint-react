@@ -11,9 +11,9 @@ export interface IUser {
 export interface IProduct {
     id: number;
     title: string;
-    content: string;
+    description: string;
     price: number;
-    imageUrl: string;
+    images: string;
 }
 export interface FormModalProps {
     visible: boolean,
