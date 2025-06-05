@@ -3,7 +3,8 @@ import { CategoryState } from "@/types/models";
 
 
 const initialState: CategoryState = {
-    category: 'laptops'
+    category: 'laptops',
+    items: [],
 }
 
 export const categorySlice = () => createSlice({
@@ -12,7 +13,7 @@ export const categorySlice = () => createSlice({
     reducers: {
         changeCategory(state, action: PayloadAction<'laptops' | 'smartphones'>) {
             state.category = action.payload;
-        },
+        }
     },
 })
 

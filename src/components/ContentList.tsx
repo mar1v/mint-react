@@ -1,34 +1,53 @@
-import React, { FC, useMemo } from 'react';
-import { Button, Card, Col, Row, Spin, } from 'antd';
+import React, { FC, useEffect, useMemo } from 'react';
+import { Button, Card, Col, Row, Select, Spin, } from 'antd';
 import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector';
-import { useSelector } from 'react-redux';
 import { addItemToCart } from '../store/reducers/CartSlice/CartSlice';
-import { RootState } from '../store';
 import { IProduct } from '../types/models';
 import { HeartFilled, HeartOutlined } from '@ant-design/icons';
 import { toggleItemInWish } from '../store/reducers/Wish/WishSlice';
 import { useGetLaptopsQuery, useGetSmartphonesQuery } from '../api/productsApi';
+import { setSortType } from '../store/reducers/Sorting/SortingSlice';
 
 
 
 const ContentList: FC = () => {
     const dispatch = useAppDispatch();
-    const searchValue = useSelector((state: RootState) => state.search.searchValue);
-    const category = useSelector((state: RootState) => state.category.category);
+    const searchValue = useTypedSelector(state => state.search.searchValue);
+    const category = useTypedSelector(state => state.category.category);
     const wishItems = useTypedSelector(state => state.wish.items);
-    const { data: productsLaptop = [], isLoading: loadingLaptop } = useGetLaptopsQuery(undefined, {
-        skip: category !== 'laptops',
-    });
-    const { data: productsSmartphone = [], isLoading: loadingSmartphone } = useGetSmartphonesQuery(undefined, {
-        skip: category !== 'smartphones',
-    });
-    const products = category === 'laptops' ? productsLaptop : productsSmartphone;
-    const isLoading = category === 'laptops' ? loadingLaptop : loadingSmartphone;
+    const priceRange = useTypedSelector(state => state.sorting.priceRange);
+    const useProductsQuery = (category: 'laptops' | 'smartphones') => {
+        const laptopQuery = useGetLaptopsQuery(undefined, { skip: category !== 'laptops' });
+        const smartphoneQuery = useGetSmartphonesQuery(undefined, { skip: category !== 'smartphones' });
+        return category === 'laptops' ? laptopQuery : smartphoneQuery;
+    };
+
+    const { data: products = [], isLoading } = useProductsQuery(category);
+
+    const sortType = useTypedSelector(state => state.sorting.sortType);
+    const sortedProducts = useMemo(() => {
+        const result = [...products];
+        switch (sortType) {
+            case 'price-asc':
+                return result.sort((a, b) => a.price - b.price);
+            case 'price-desc':
+                return result.sort((a, b) => b.price - a.price);
+            case 'alphabet':
+                return result.sort((a, b) => a.title.localeCompare(b.title));
+            default:
+                return result;
+        }
+    }, [products, sortType]);
+
     const filtered = useMemo(() => {
-        return products.filter((product) =>
-            product.title.toLowerCase().includes(searchValue.toLowerCase())
+        return sortedProducts.filter(product =>
+            product.title.toLowerCase().includes(searchValue.toLowerCase()) &&
+            product.price >= priceRange.min &&
+            product.price <= priceRange.max
         );
-    }, [products, searchValue]);
+    }, [sortedProducts, searchValue, priceRange]);
+
+
 
     const isProductInWishlist = (productId: number) => {
         return wishItems.some((item: IProduct) => item.id === productId);
@@ -47,6 +66,21 @@ const ContentList: FC = () => {
 
     return (
         <>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+                <Select
+                    style={{ width: 200 }}
+                    size="middle"
+                    placeholder="Sort by"
+                    onChange={(value) => {
+                        dispatch(setSortType(value));
+                    }}
+                    options={[
+                        { label: 'Price: Low to High', value: 'price-asc' },
+                        { label: 'Price: High to Low', value: 'price-desc' },
+                        { label: 'Title: A to Z', value: 'alphabet' },
+                    ]}
+                />
+            </div>
             <Row gutter={[16, 16]}>
                 {
                     filtered.length === 0 ? (

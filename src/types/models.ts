@@ -14,6 +14,7 @@ export interface IProduct {
     description: string;
     price: number;
     images: string[];
+    category: string;
 }
 
 export interface FormModalProps {
@@ -38,8 +39,14 @@ export interface WishState {
 }
 
 export interface SortingState {
-    items: IProduct[];
+    priceRange: {
+        min: number;
+        max: number;
+    };
+    sortType: string;
 }
+
 export interface CategoryState {
     category: 'laptops' | 'smartphones';
+    items: IProduct[];
 }

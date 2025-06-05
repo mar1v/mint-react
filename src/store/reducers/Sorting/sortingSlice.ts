@@ -1,28 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IProduct, SortingState } from "@/types/models";
+import { SortingState } from "@/types/models";
 
 const initialState: SortingState = {
-    items: [],
-}
+    priceRange: { min: 0, max: 5000 },
+    sortType: "",
+};
 
-
-export const sortingSlice = () => createSlice({
+export const sortingSlice = createSlice({
     name: 'sorting',
     initialState,
     reducers: {
-        sortByPrice(state, action: PayloadAction<IProduct[]>) {
-            state.items = [...action.payload].sort((a, b) => a.price - b.price);
+        setPriceRange(state, action: PayloadAction<{ min: number; max: number }>) {
+            state.priceRange = action.payload;
         },
-        sortByAlphabet(state, action: PayloadAction<IProduct[]>) {
-            state.items = [...action.payload].sort((a, b) => a.title.localeCompare(b.title));
-        },
-        sortByPriceRange(state, action: PayloadAction<{ min: number; max: number; products: IProduct[] }>) {
-            const { min, max, products } = action.payload;
-            state.items = products.filter(item => item.price >= min && item.price <= max);
-        },
+        setSortType(state, action: PayloadAction<string>) {
+            state.sortType = action.payload;
+        }
     }
-})
+});
 
-
-export const { sortByPrice, sortByAlphabet, sortByPriceRange } = sortingSlice().actions;
-export const sortingReducer = sortingSlice().reducer;
+export const { setPriceRange, setSortType } = sortingSlice.actions;
+export const sortingReducer = sortingSlice.reducer;

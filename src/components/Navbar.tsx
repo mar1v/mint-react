@@ -1,4 +1,4 @@
-import { Badge, Button, Input, Layout, Menu, theme, } from 'antd';
+import { Badge, Button, Input, InputNumber, Layout, Menu, Slider, Space, theme, } from 'antd';
 import React, { FC, useState } from 'react';
 import {
     MenuFoldOutlined,
@@ -15,7 +15,8 @@ import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector';
 import { setSearchValue } from '../store/reducers/Search/SearchSlice';
 import { routesNames } from '../router/router';
 import { useNavigate } from 'react-router-dom';
-import { changeCategory } from '../store/reducers/category/CategorySlice';
+import { changeCategory } from '../store/reducers/Category/CategorySlice';
+import { setPriceRange } from '../store/reducers/Sorting/SortingSlice';
 const { Header, Sider, Content } = Layout;
 
 
@@ -26,14 +27,24 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const searchValue = useTypedSelector(state => state.search.searchValue);
+    const priceRange = useTypedSelector(state => state.sorting.priceRange);
     const cartItemsCount = useTypedSelector(state => { return state.cart.totalQuantity });
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-
+    const siderStyle: React.CSSProperties = {
+        overflow: 'auto',
+        height: '100vh',
+        position: 'sticky',
+        insetInlineStart: 0,
+        top: 0,
+        bottom: 0,
+        scrollbarWidth: 'thin',
+        scrollbarGutter: 'stable',
+    };
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider trigger={null} collapsible collapsed={collapsed}>
+            <Sider style={siderStyle} trigger={null} collapsible collapsed={collapsed}>
                 <div className="demo-logo-vertical" />
                 <FormModal
                     visible={isModalFormVisible}
@@ -80,31 +91,17 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
                         {
                             key: '3',
                             icon: (
-                                collapsed
-                                    ?
-                                    <Badge
-                                        count={cartItemsCount}
-                                        size="small"
-                                        offset={[-22, 7]}
-                                        style={{
-                                            backgroundColor: '#ff4d4f',
-                                            color: '#fff',
-                                        }}
-                                    >
-                                        <ShoppingCartOutlined />
-                                    </Badge>
-                                    :
-                                    <Badge
-                                        count={cartItemsCount}
-                                        size="small"
-                                        offset={[-21, -3]}
-                                        style={{
-                                            backgroundColor: '#ff4d4f',
-                                            color: '#fff',
-                                        }}
-                                    >
-                                        <ShoppingCartOutlined />
-                                    </Badge>
+                                <Badge
+                                    count={cartItemsCount}
+                                    size="small"
+                                    offset={collapsed ? [-22, 7] : [-21, -3]}
+                                    style={{
+                                        backgroundColor: '#ff4d4f',
+                                        color: '#fff',
+                                    }}
+                                >
+                                    <ShoppingCartOutlined />
+                                </Badge>
                             ),
                             label: 'Cart',
                             onClick: () => {
@@ -118,9 +115,73 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
                             onClick: () => {
                                 navigate(routesNames.WISHLIST);
                             },
-                        }
+                        },
                     ]}
                 />
+                <div
+                    style={{
+                        padding: '0 24px',
+                        marginTop: 24,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 8,
+                    }}
+                >
+                    {!collapsed && (
+                        <p style={{ color: 'rgba(255, 255, 255, 0.65)', margin: 0, fontSize: 14 }}>
+                            Filter by Price
+                        </p>
+                    )}
+
+                    <div style={{ display: 'flex', gap: 8 }}>
+                        <InputNumber
+                            value={priceRange.min}
+                            min={0}
+                            max={50000}
+                            step={10}
+                            type="number"
+                            size="small"
+                            style={{
+                                borderColor: '#303030',
+                                color: 'white',
+                                borderRadius: 6,
+                                width: 70,
+                            }}
+                            onChange={(value) => {
+                                dispatch(setPriceRange({ min: value ?? 0, max: priceRange.max }));
+                            }}
+                        />
+                        <InputNumber
+                            value={priceRange.max}
+                            min={0}
+                            max={50000}
+                            step={10}
+                            type="number"
+                            size="small"
+                            style={{
+                                borderColor: '#303030',
+                                color: 'white',
+                                borderRadius: 6,
+                                width: 70,
+                            }}
+                            onChange={(value) => {
+                                dispatch(setPriceRange({ min: priceRange.min, max: value ?? 5000 }));
+                            }}
+                        />
+                    </div>
+                    <Slider
+                        range
+                        min={0}
+                        max={5000}
+                        step={10}
+                        value={[priceRange.min, priceRange.max]}
+                        onChange={([min, max]) => {
+                            dispatch(setPriceRange({ min, max }));
+                        }}
+                        tooltip={{ open: false }}
+                        trackStyle={[{ backgroundColor: '#1890ff' }]}
+                    />
+                </div>
             </Sider>
             <Layout>
                 <Header
@@ -130,7 +191,7 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        paddingInline: 16
+                        paddingInline: 16,
                     }}
                 >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
