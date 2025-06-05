@@ -7,7 +7,6 @@ import AppRouter from './components/AppRouter'
 const App = () => {
   return (
     <Layout>
-      <Navbar />
       <AppRouter />
     </Layout>
   )

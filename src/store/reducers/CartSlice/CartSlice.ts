@@ -12,7 +12,7 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addItem(state, action: PayloadAction<IProduct>) {
+        addItemToCart(state, action: PayloadAction<IProduct>) {
             const newItem = action.payload
             const existingItem = state.items.find(item => item.id === newItem.id)
             if (!existingItem) {
@@ -26,7 +26,7 @@ export const cartSlice = createSlice({
             state.totalQuantity++
             state.totalAmount += newItem.price
         },
-        removeItem(state, action: PayloadAction<IProduct>) {
+        removeItemFromCart(state, action: PayloadAction<IProduct>) {
             const id = action.payload.id
             const existingItem = state.items.find(item => item.id === id)
             if (existingItem) {
@@ -68,6 +68,6 @@ export const cartSlice = createSlice({
     }
 })
 
-export const { addItem, removeItem, updateQuantity, clearCart } = cartSlice.actions
+export const { addItemToCart, removeItemFromCart, updateQuantity, clearCart } = cartSlice.actions
 export const cartReducer = cartSlice.reducer;
 

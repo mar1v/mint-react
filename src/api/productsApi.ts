@@ -3,18 +3,21 @@ import { IProduct } from "@/types/models";
 
 export const productsApi = createApi({
     reducerPath: "productsApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "https://api.escuelajs.co/api/v1/" }),
+    baseQuery: fetchBaseQuery({ baseUrl: "https://dummyjson.com/" }),
     endpoints: (builder) => ({
-        getProducts: builder.query<IProduct[], void>({
-            query: () => "categories/2/products",
+        getLaptops: builder.query<IProduct[], void>({
+            query: () => "products/category/laptops",
+            transformResponse: (response: { products: IProduct[] }) => response.products,
         }),
-        getProductById: builder.query<IProduct, number>({
-            query: (id) => `products/${id}`,
-        })
+        getSmartphones: builder.query<IProduct[], void>({
+            query: () => "products/category/smartphones",
+            transformResponse: (response: { products: IProduct[] }) => response.products,
+        }),
     }),
 });
 
-export const {
-    useGetProductsQuery,
-    useGetProductByIdQuery
-} = productsApi;
+export const { useGetLaptopsQuery, useGetSmartphonesQuery } = productsApi;
+
+
+
+

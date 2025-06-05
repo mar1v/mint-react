@@ -1,24 +1,29 @@
-import { Badge, Button, Input, Layout, Menu, Space, theme } from 'antd';
-import React, { useState } from 'react';
+import { Badge, Button, Input, Layout, Menu, theme, } from 'antd';
+import React, { FC, useState } from 'react';
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     ShoppingCartOutlined,
     UserOutlined,
     MenuOutlined,
-    SearchOutlined
+    SearchOutlined,
+    HeartOutlined
 } from '@ant-design/icons';
 import FormModal from './FormModal';
 import CartModal from './CartModal';
-import ContentList from './ContentList';
 import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector';
 import { setSearchValue } from '../store/reducers/Search/SearchSlice';
+import { routesNames } from '../router/router';
+import { useNavigate } from 'react-router-dom';
+import { changeCategory } from '../store/reducers/category/CategorySlice';
 const { Header, Sider, Content } = Layout;
 
-const Navbar = () => {
+
+const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false);
     const [isModalFormVisible, setIsModalFormVisible] = useState(false);
     const [isModalCartVisible, setIsModalCartVisible] = useState(false);
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const searchValue = useTypedSelector(state => state.search.searchValue);
     const cartItemsCount = useTypedSelector(state => { return state.cart.totalQuantity });
@@ -58,11 +63,17 @@ const Navbar = () => {
                             children: [
                                 {
                                     key: '2-1',
-                                    label: 'Category 1',
+                                    label: 'Laptop',
+                                    onClick: () => {
+                                        dispatch(changeCategory('laptops'));
+                                    },
                                 },
                                 {
                                     key: '2-2',
-                                    label: 'Category 2',
+                                    label: 'Smartphone',
+                                    onClick: () => {
+                                        dispatch(changeCategory('smartphones'));
+                                    },
                                 },
                             ]
                         },
@@ -100,47 +111,60 @@ const Navbar = () => {
                                 setIsModalCartVisible(true);
                             },
                         },
+                        {
+                            key: '4',
+                            icon: <HeartOutlined />,
+                            label: 'Wishlist',
+                            onClick: () => {
+                                navigate(routesNames.WISHLIST);
+                            },
+                        }
                     ]}
                 />
             </Sider>
             <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }}>
-                    <Button
-                        type="text"
-                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                        onClick={() => setCollapsed(!collapsed)}
-                        style={{
-                            fontSize: '16px',
-                            width: 64,
-                            height: 64,
-                        }}
-                    />
-                    <Space style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px' }}>
-                        <Input.Search
-                            placeholder="Type to search..."
-                            value={searchValue}
-                            size="large"
+                <Header
+                    style={{
+                        padding: 0,
+                        background: colorBgContainer,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        paddingInline: 16
+                    }}
+                >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                        <Button
+                            type="text"
+                            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                            onClick={() => setCollapsed(!collapsed)}
                             style={{
-                                width: 300,
-                                alignItems: 'center',
+                                fontSize: '16px',
+                                width: 64,
+                                height: 64,
                             }}
-                            onChange={(e) => dispatch(setSearchValue(e.target.value))}
-                            enterButton={
-                                <Button
-                                    type="primary"
-                                    icon={<SearchOutlined />}
-                                    style={{
-                                        backgroundColor: '#595959',
-                                        borderColor: '#595959',
-                                    }}
-                                />
-                            }
-
                         />
-                    </Space>
+                        <span onClick={() => navigate(routesNames.SHOP)} style={{ fontSize: 20, fontWeight: 'bold', cursor: 'pointer' }}>Shop</span>
+                    </div>
+                    <Input.Search
+                        placeholder="Type to search..."
+                        value={searchValue}
+                        size="large"
+                        style={{ width: 300 }}
+                        onChange={(e) => dispatch(setSearchValue(e.target.value))}
+                        enterButton={
+                            <Button
+                                type="primary"
+                                icon={<SearchOutlined />}
+                                style={{
+                                    backgroundColor: '#595959',
+                                    borderColor: '#595959',
+                                }}
+                                onClick={() => dispatch(setSearchValue(searchValue))}
+                            />
+                        }
+                    />
                 </Header>
-                <div style={{ fontSize: '24px', fontWeight: 'bold', padding: '16px' }}>
-                    Shop</div>
                 <Content
                     style={{
                         padding: 24,
@@ -151,7 +175,7 @@ const Navbar = () => {
                         overflow: 'auto',
                     }}
                 >
-                    <ContentList />
+                    {children}
                 </Content>
             </Layout>
         </Layout >

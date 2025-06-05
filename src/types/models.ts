@@ -13,8 +13,9 @@ export interface IProduct {
     title: string;
     description: string;
     price: number;
-    images: string;
+    images: string[];
 }
+
 export interface FormModalProps {
     visible: boolean,
     onCancel: () => void;
@@ -30,4 +31,15 @@ export interface CartState {
 
 export interface SearchState {
     searchValue: string;
+}
+
+export interface WishState {
+    items: IProduct[];
+}
+
+export interface SortingState {
+    items: IProduct[];
+}
+export interface CategoryState {
+    category: 'laptops' | 'smartphones';
 }

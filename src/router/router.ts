@@ -1,5 +1,8 @@
 import React from 'react'
 import Shop from '../pages/Shop'
+import Cart from '../pages/Cart'
+import Wishlist from '../pages/Wishlist'
+
 
 
 interface IRoute {
@@ -8,11 +11,15 @@ interface IRoute {
 }
 
 export enum routesNames {
-    SHOP = '/shop'
+    SHOP = '/shop',
+    CART = '/cart',
+    WISHLIST = '/wishlist'
 }
 
 
 
 export const mainPage: IRoute[] = [
     { path: routesNames.SHOP, component: Shop },
+    { path: routesNames.CART, component: Cart },
+    { path: routesNames.WISHLIST, component: Wishlist },
 ]
