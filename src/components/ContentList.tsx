@@ -1,64 +1,37 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { Button, Card, Col, Row, Select, Spin, } from 'antd';
-import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector';
-import { addItemToCart } from '../store/reducers/CartSlice/CartSlice';
+import { useAppDispatch, useProductsQueryByCategory, useTypedSelector } from '../hooks';
 import { IProduct } from '../types/models';
 import { HeartFilled, HeartOutlined } from '@ant-design/icons';
-import { toggleItemInWish } from '../store/reducers/Wish/WishSlice';
-import { useGetLaptopsQuery, useGetSmartphonesQuery } from '../api/productsApi';
-import { setSortType } from '../store/reducers/Sorting/SortingSlice';
-
+import { setSortType, toggleItemInWish, addItemToCart } from '../store/reducers';
+import { filterProducts } from '../utils/filteredProducts';
+import { useSortedProducts } from '../hooks';
 
 
 const ContentList: FC = () => {
     const dispatch = useAppDispatch();
-    const searchValue = useTypedSelector(state => state.search.searchValue);
+    const searchValue = useTypedSelector(state => state.filter.searchValue);
     const category = useTypedSelector(state => state.category.category);
-    const wishItems = useTypedSelector(state => state.wish.items);
-    const priceRange = useTypedSelector(state => state.sorting.priceRange);
-    const useProductsQuery = (category: 'laptops' | 'smartphones') => {
-        const laptopQuery = useGetLaptopsQuery(undefined, { skip: category !== 'laptops' });
-        const smartphoneQuery = useGetSmartphonesQuery(undefined, { skip: category !== 'smartphones' });
-        return category === 'laptops' ? laptopQuery : smartphoneQuery;
-    };
-
-    const { data: products = [], isLoading } = useProductsQuery(category);
-
-    const sortType = useTypedSelector(state => state.sorting.sortType);
-    const sortedProducts = useMemo(() => {
-        const result = [...products];
-        switch (sortType) {
-            case 'price-asc':
-                return result.sort((a, b) => a.price - b.price);
-            case 'price-desc':
-                return result.sort((a, b) => b.price - a.price);
-            case 'alphabet':
-                return result.sort((a, b) => a.title.localeCompare(b.title));
-            default:
-                return result;
-        }
-    }, [products, sortType]);
-
-    const filtered = useMemo(() => {
-        return sortedProducts.filter(product =>
-            product.title.toLowerCase().includes(searchValue.toLowerCase()) &&
-            product.price >= priceRange.min &&
-            product.price <= priceRange.max
-        );
-    }, [sortedProducts, searchValue, priceRange]);
-
-
+    const wishItems = useTypedSelector(state => state.wish.itemsInWish);
+    const priceRange = useTypedSelector(state => state.filter.priceRange);
+    const { data: products = [], isLoading } = useProductsQueryByCategory(category);
+    const sortedProducts = useSortedProducts(products);
+    const filteredProducts = useMemo(
+        () => filterProducts(sortedProducts, searchValue, priceRange),
+        [sortedProducts, searchValue, priceRange]
+    );
 
     const isProductInWishlist = (productId: number) => {
         return wishItems.some((item: IProduct) => item.id === productId);
     };
-
     const toggleFavorite = (product: IProduct) => {
         dispatch(toggleItemInWish(product));
     };
-
     const cartAddCartHandler = (product: IProduct) => {
         dispatch(addItemToCart(product));
+    };
+    const handleSortChange = (value: string) => {
+        dispatch(setSortType(value));
     };
 
     if (isLoading) return <Spin style={{ height: '100%', width: '100%' }} size="large" />;
@@ -72,7 +45,7 @@ const ContentList: FC = () => {
                     size="middle"
                     placeholder="Sort by"
                     onChange={(value) => {
-                        dispatch(setSortType(value));
+                        handleSortChange(value);
                     }}
                     options={[
                         { label: 'Price: Low to High', value: 'price-asc' },
@@ -83,10 +56,10 @@ const ContentList: FC = () => {
             </div>
             <Row gutter={[16, 16]}>
                 {
-                    filtered.length === 0 ? (
+                    filteredProducts.length === 0 ? (
                         <h1 style={{ width: '100%', textAlign: 'center' }}>No results</h1>
                     ) : (
-                        filtered.map((product) => (
+                        filteredProducts.map((product) => (
                             <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
                                 <Card
                                     type="inner"

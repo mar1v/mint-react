@@ -2,9 +2,8 @@ import React from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Modal } from 'antd';
 import type { FC } from 'react';
-import type { FormModalProps } from '../types/models';
-
-
+import type { FormModalProps } from '../types/UI-interfaces';
+import { signInValidation } from '../rules';
 
 export const FormModal: FC<FormModalProps> = ({ visible, onCancel }) => {
     return (
@@ -22,14 +21,14 @@ export const FormModal: FC<FormModalProps> = ({ visible, onCancel }) => {
             >
                 <Form.Item
                     name="username"
-                    rules={[{ required: true, message: 'Please input your Username!' }]}
+                    rules={signInValidation.username}
                     style={{ padding: '10px' }}
                 >
                     <Input prefix={<UserOutlined />} placeholder="Username" style={{ height: '45px' }} />
                 </Form.Item>
                 <Form.Item
                     name="password"
-                    rules={[{ required: true, message: 'Please input your Password!' }]}
+                    rules={signInValidation.password}
                     style={{ padding: '10px' }}
                 >
                     <Input prefix={<LockOutlined />} type="password" placeholder="Password" style={{ height: '45px' }} />

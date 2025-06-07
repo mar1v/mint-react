@@ -1,26 +1,24 @@
 import { Button, Modal } from 'antd'
 import React, { FC } from 'react'
-import { ICart, IProduct, CartItem } from '../types/models'
-import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector'
-import { clearCart, removeItemFromCart, updateQuantity } from '../store/reducers/CartSlice/CartSlice'
-import { routesNames } from '../router/router'
+import { IProduct, CartItem } from '@/types/models'
+import { ICart } from '@/types/UI-interfaces'
+import { useAppDispatch, useTypedSelector } from '../hooks'
+import { clearCart, removeItemFromCart, updateQuantity } from '../store/reducers'
+import { routesNames } from '../constants'
 import { Link } from 'react-router-dom'
 
 const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
     const dispatch = useAppDispatch()
     const items = useTypedSelector(state => state.cart)
-
     const handleRemoveFromCart = (products: IProduct) => {
         dispatch(removeItemFromCart(products));
     };
-
     const handleUpdateQuantity = (productId: number, quantity: number) => {
         dispatch(updateQuantity({ id: productId, quantity }));
     };
-
     const handleClearCart = () => {
         dispatch(clearCart());
-    }
+    };
 
     return (
         <Modal

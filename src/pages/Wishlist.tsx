@@ -1,42 +1,38 @@
 import React, { FC, useMemo } from 'react'
 import Navbar from '../components/Navbar';
-import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector';
+import { useAppDispatch, useSortedProducts, useTypedSelector } from '../hooks';
 import { Button, Card, Col, Row } from 'antd';
-import { IProduct } from '../types/models';
+import { IProduct } from '@/types/models';
 import { CloseOutlined } from '@ant-design/icons';
-import { removeItemFromWish } from '../store/reducers/Wish/WishSlice';
-import { addItemToCart } from '../store/reducers/CartSlice/CartSlice';
+import { addItemToCart, removeItemFromWish } from '../store/reducers';
+import { filterProducts } from '../utils/filteredProducts';
 
 const Wishlist: FC = () => {
     const dispatch = useAppDispatch();
-    const items = useTypedSelector(state => state.wish);
-    const searchValue = useTypedSelector(state => state.search);
-    const filtered = useMemo(() => {
-        return items.items.filter((item: IProduct) =>
-            item.title.toLowerCase().includes(searchValue.searchValue.toLowerCase()) &&
-            item.title.length > 5 &&
-            item.price > 0 &&
-            item.description && item.description.length > 10
-        );
-    }, [items, searchValue]);
-
+    const searchValue = useTypedSelector(state => state.filter.searchValue);
+    const priceRange = useTypedSelector(state => state.filter.priceRange);
+    const wishItems = useTypedSelector(state => state.wish.itemsInWish);
+    const sortedProducts = useSortedProducts(wishItems);
+    const filteredProducts = useMemo(
+        () => filterProducts(sortedProducts, searchValue, priceRange),
+        [sortedProducts, searchValue, priceRange]
+    );
     const handleRemoveFromWish = (products: IProduct) => {
         dispatch(removeItemFromWish(products));
     };
-
     const handleAddToCart = (products: IProduct) => {
         dispatch(addItemToCart(products));
     };
 
     return (
         <Navbar>
-            {filtered.length === 0 ? (
+            {filteredProducts.length === 0 ? (
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <p style={{ fontStyle: 'italic' }}> Your wish list is empty</p>
                 </div>
             ) : (
                 <Row gutter={[16, 16]}>
-                    {filtered.map((item: IProduct) => (
+                    {filteredProducts.map((item) => (
                         <Col key={item.id} xs={24} sm={12} md={8} lg={6}>
                             <Card
                                 style={{

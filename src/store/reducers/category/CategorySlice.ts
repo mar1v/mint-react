@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CategoryState } from "@/types/models";
 
-
 const initialState: CategoryState = {
     category: 'laptops',
     items: [],

@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SortingState } from "@/types/models";
+import { FilterState } from "@/types/models";
 
-const initialState: SortingState = {
+const initialState: FilterState = {
     priceRange: { min: 0, max: 5000 },
     sortType: "",
+    searchValue: '',
 };
 
-export const sortingSlice = createSlice({
+export const filterSlice = createSlice({
     name: 'sorting',
     initialState,
     reducers: {
@@ -15,9 +16,12 @@ export const sortingSlice = createSlice({
         },
         setSortType(state, action: PayloadAction<string>) {
             state.sortType = action.payload;
+        },
+        setSearchValue: (state, action: PayloadAction<string>) => {
+            state.searchValue = action.payload;
         }
     }
 });
 
-export const { setPriceRange, setSortType } = sortingSlice.actions;
-export const sortingReducer = sortingSlice.reducer;
+export const { setPriceRange, setSortType, setSearchValue } = filterSlice.actions;
+export const filterReducer = filterSlice.reducer;

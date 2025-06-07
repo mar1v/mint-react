@@ -1,4 +1,4 @@
-import { Badge, Button, Input, InputNumber, Layout, Menu, Slider, Space, theme, } from 'antd';
+import { Badge, Button, Input, InputNumber, Layout, Menu, Slider, theme, } from 'antd';
 import React, { FC, useState } from 'react';
 import {
     MenuFoldOutlined,
@@ -11,14 +11,22 @@ import {
 } from '@ant-design/icons';
 import FormModal from './FormModal';
 import CartModal from './CartModal';
-import { useAppDispatch, useTypedSelector } from '../hooks/useTypedSelector';
-import { setSearchValue } from '../store/reducers/Search/SearchSlice';
-import { routesNames } from '../router/router';
+import { useAppDispatch, useTypedSelector } from '../hooks';
+import { routesNames } from '../constants';
 import { useNavigate } from 'react-router-dom';
-import { changeCategory } from '../store/reducers/Category/CategorySlice';
-import { setPriceRange } from '../store/reducers/Sorting/SortingSlice';
-const { Header, Sider, Content } = Layout;
+import { changeCategory, setPriceRange, setSearchValue } from '../store/reducers';
 
+const { Header, Sider, Content } = Layout;
+const siderStyle: React.CSSProperties = {
+    overflow: 'auto',
+    height: '100vh',
+    position: 'sticky',
+    insetInlineStart: 0,
+    top: 0,
+    bottom: 0,
+    scrollbarWidth: 'thin',
+    scrollbarGutter: 'stable',
+};
 
 const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false);
@@ -26,22 +34,13 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
     const [isModalCartVisible, setIsModalCartVisible] = useState(false);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const searchValue = useTypedSelector(state => state.search.searchValue);
-    const priceRange = useTypedSelector(state => state.sorting.priceRange);
+    const searchValue = useTypedSelector(state => state.filter.searchValue);
+    const priceRange = useTypedSelector(state => state.filter.priceRange);
     const cartItemsCount = useTypedSelector(state => { return state.cart.totalQuantity });
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-    const siderStyle: React.CSSProperties = {
-        overflow: 'auto',
-        height: '100vh',
-        position: 'sticky',
-        insetInlineStart: 0,
-        top: 0,
-        bottom: 0,
-        scrollbarWidth: 'thin',
-        scrollbarGutter: 'stable',
-    };
+
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Sider style={siderStyle} trigger={null} collapsible collapsed={collapsed}>
@@ -70,7 +69,7 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
                         {
                             key: '2',
                             icon: <MenuOutlined />,
-                            label: 'Catalogue',
+                            label: 'Category',
                             children: [
                                 {
                                     key: '2-1',

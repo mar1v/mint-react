@@ -2,11 +2,9 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import { reducers } from "./reducers/reducers"
 import { productsApi } from "../api/productsApi"
 
-
 export const rootReducer = combineReducers(
     reducers,
 )
-
 
 export const store = configureStore({
     reducer: rootReducer,

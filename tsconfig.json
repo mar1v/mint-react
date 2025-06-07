@@ -21,17 +21,44 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@api": [
+        "src/api"
+      ],
+      "@api/*": [
+        "src/api/*"
+      ],
+      "@components": [
+        "src/components"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
       "@constants": [
         "src/constants"
       ],
-      "@constants/index": [
-        "src/constants/index"
+      "@constants/*": [
+        "src/constants/*"
       ],
-      "@types": [
-        "src/types"
+      "@hooks": [
+        "src/hooks"
       ],
-      "@types/*": [
-        "src/types/*"
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
+      "@pages": [
+        "src/pages"
+      ],
+      "@pages/*": [
+        "src/pages/*"
+      ],
+      "@router": [
+        "src/router"
+      ],
+      "@router/*": [
+        "src/router/*"
       ],
       "@store": [
         "src/store"
@@ -39,8 +66,17 @@
       "@store/*": [
         "src/store/*"
       ],
-      "@/*": [
-        "src/*"
+      "@store/reducers": [
+        "src/store/reducers"
+      ],
+      "@store/reducers/*": [
+        "src/store/reducers/*"
+      ],
+      "@types": [
+        "src/types"
+      ],
+      "@types/*": [
+        "src/types/*"
       ]
     }
   },

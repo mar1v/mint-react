@@ -1,19 +1,15 @@
 import { productsApi } from "../../api/productsApi";
 import { authReducer } from "./auth/auth";
-import { cartReducer } from "./CartSlice/CartSlice";
+import { cartReducer } from "./Cart/CartSlice";
 import { categoryReducer } from "./Category/CategorySlice";
-import { searchReducer } from "./Search/SearchSlice";
-import { sortingReducer } from "./Sorting/SortingSlice";
+import { filterReducer } from "./Sorting/FilterSlice";
 import { wishReducer } from "./Wish/WishSlice";
-
-
 
 export const reducers = {
     auth: authReducer,
     cart: cartReducer,
-    search: searchReducer,
     wish: wishReducer,
-    sorting: sortingReducer,
+    filter: filterReducer,
     category: categoryReducer,
     [productsApi.reducerPath]: productsApi.reducer
 }

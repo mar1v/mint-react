@@ -1,22 +1,8 @@
-import React from 'react'
 import Shop from '../pages/Shop'
 import Cart from '../pages/Cart'
 import Wishlist from '../pages/Wishlist'
-
-
-
-interface IRoute {
-    path: string,
-    component: React.ComponentType<any>
-}
-
-export enum routesNames {
-    SHOP = '/shop',
-    CART = '/cart',
-    WISHLIST = '/wishlist'
-}
-
-
+import { IRoute } from '../types/UI-interfaces'
+import { routesNames } from '../constants'
 
 export const mainPage: IRoute[] = [
     { path: routesNames.SHOP, component: Shop },

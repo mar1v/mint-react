@@ -1,6 +1,6 @@
-import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { mainPage, routesNames } from '../router/router'
+import { mainPage } from '../router'
+import { routesNames } from '../constants'
 
 const AppRouter = () => {
     return (
