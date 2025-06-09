@@ -1,5 +1,5 @@
-import { IProduct, CartState } from "@/types/models";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CartState, IProduct } from '#types/models';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: CartState = {
   items: [],
@@ -8,7 +8,7 @@ const initialState: CartState = {
 };
 
 export const cartSlice = createSlice({
-  name: "cart",
+  name: 'cart',
   initialState,
   reducers: {
     addItemToCart(state, action: PayloadAction<IProduct>) {
@@ -21,7 +21,7 @@ export const cartSlice = createSlice({
         state.items.push({ ...newItem, quantity: 1 });
       }
 
-      state.totalQuantity+=1;
+      state.totalQuantity += 1;
       state.totalAmount += newItem.price;
     },
     removeItemFromCart(state, action: PayloadAction<IProduct>) {

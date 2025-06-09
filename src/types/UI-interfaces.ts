@@ -1,14 +1,14 @@
 export interface ICart {
-    isModalVisible: boolean,
-    onCancel: () => void
+  isModalVisible: boolean;
+  onCancel: () => void;
 }
 
 export interface FormModalProps {
-    visible: boolean,
-    onCancel: () => void;
+  visible: boolean;
+  onCancel: () => void;
 }
 
 export interface IRoute {
-    path: string,
-    component: React.ComponentType<any>
+  path: string;
+  component: React.ComponentType;
 }

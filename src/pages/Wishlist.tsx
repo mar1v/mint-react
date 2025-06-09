@@ -1,114 +1,113 @@
-import React, { FC, useMemo } from 'react'
+import { IProduct } from '#types/models';
+import { CloseOutlined } from '@ant-design/icons';
+import { Button, Card, Col, Row } from 'antd';
+import { FC, useMemo } from 'react';
 import Navbar from '../components/Navbar';
 import { useAppDispatch, useSortedProducts, useTypedSelector } from '../hooks';
-import { Button, Card, Col, Row } from 'antd';
-import { IProduct } from '@/types/models';
-import { CloseOutlined } from '@ant-design/icons';
 import { addItemToCart, removeItemFromWish } from '../store/reducers';
 import { filterProducts } from '../utils/filteredProducts';
 
 const Wishlist: FC = () => {
-    const dispatch = useAppDispatch();
-    const searchValue = useTypedSelector(state => state.filter.searchValue);
-    const priceRange = useTypedSelector(state => state.filter.priceRange);
-    const wishItems = useTypedSelector(state => state.wish.itemsInWish);
-    const sortedProducts = useSortedProducts(wishItems);
-    const filteredProducts = useMemo(
-        () => filterProducts<IProduct>(sortedProducts, searchValue, priceRange),
-        [sortedProducts, searchValue, priceRange]
-    );
-    const handleRemoveFromWish = (products: IProduct) => {
-        dispatch(removeItemFromWish(products));
-    };
-    const handleAddToCart = (products: IProduct) => {
-        dispatch(addItemToCart(products));
-    };
+  const dispatch = useAppDispatch();
+  const searchValue = useTypedSelector((state) => state.filter.searchValue);
+  const priceRange = useTypedSelector((state) => state.filter.priceRange);
+  const wishItems = useTypedSelector((state) => state.wish.itemsInWish);
+  const sortedProducts = useSortedProducts(wishItems);
+  const filteredProducts = useMemo(
+    () => filterProducts<IProduct>(sortedProducts, searchValue, priceRange),
+    [sortedProducts, searchValue, priceRange],
+  );
+  const handleRemoveFromWish = (products: IProduct) => {
+    dispatch(removeItemFromWish(products));
+  };
+  const handleAddToCart = (products: IProduct) => {
+    dispatch(addItemToCart(products));
+  };
 
-    return (
-        <Navbar>
-            {filteredProducts.length === 0 ? (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <p style={{ fontStyle: 'italic' }}> Your wish list is empty</p>
+  return (
+    <Navbar>
+      {filteredProducts.length === 0 ? (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <p style={{ fontStyle: 'italic' }}> Your wish list is empty</p>
+        </div>
+      ) : (
+        <Row gutter={[16, 16]}>
+          {filteredProducts.map((item) => (
+            <Col key={item.id} xs={24} sm={12} md={8} lg={6}>
+              <Card
+                style={{
+                  position: 'relative',
+                  height: '400px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+                cover={
+                  <div style={{ position: 'relative', backgroundColor: '#f5f5f5' }}>
+                    <img
+                      alt={item.title}
+                      src={item.images[0]}
+                      style={{
+                        width: '100%',
+                        height: '200px',
+                        objectFit: 'contain',
+                        padding: '16px',
+                      }}
+                    />
+                    <Button
+                      type="text"
+                      icon={<CloseOutlined />}
+                      size="small"
+                      style={{
+                        position: 'absolute',
+                        top: '8px',
+                        right: '8px',
+                        border: 'none',
+                      }}
+                      onClick={() => handleRemoveFromWish(item)}
+                    />
+                  </div>
+                }
+              >
+                <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <h3
+                      style={{
+                        margin: '0 0 8px 0',
+                        fontSize: '16px',
+                        fontWeight: '500',
+                        minHeight: '48px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p style={{ margin: '0 0 16px 0', fontSize: '14px', fontWeight: '600' }}>${item.price} USD</p>
+                  </div>
+                  <Button
+                    type="primary"
+                    size="large"
+                    block
+                    style={{
+                      backgroundColor: '#000',
+                      borderColor: '#000',
+                      fontWeight: '500',
+                      height: '44px',
+                      marginTop: 'auto',
+                    }}
+                    onClick={() => handleAddToCart(item)}
+                  >
+                    ADD TO CART
+                  </Button>
                 </div>
-            ) : (
-                <Row gutter={[16, 16]}>
-                    {filteredProducts.map((item) => (
-                        <Col key={item.id} xs={24} sm={12} md={8} lg={6}>
-                            <Card
-                                style={{
-                                    position: 'relative',
-                                    height: '400px',
-                                    display: 'flex',
-                                    flexDirection: 'column'
-                                }}
-                                cover={
-                                    <div style={{ position: 'relative', backgroundColor: '#f5f5f5' }}>
-                                        <img
-                                            alt={item.title}
-                                            src={item.images[0]}
-                                            style={{
-                                                width: '100%',
-                                                height: '200px',
-                                                objectFit: 'contain',
-                                                padding: '16px'
-                                            }}
-                                        />
-                                        <Button
-                                            type="text"
-                                            icon={<CloseOutlined />}
-                                            size="small"
-                                            style={{
-                                                position: 'absolute',
-                                                top: '8px',
-                                                right: '8px',
-                                                border: 'none'
-                                            }}
-                                            onClick={() => handleRemoveFromWish(item)}
-                                        />
-                                    </div>
-                                }
-                            >
-                                <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                        <h3 style={{
-                                            margin: '0 0 8px 0',
-                                            fontSize: '16px',
-                                            fontWeight: '500',
-                                            minHeight: '48px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
+    </Navbar>
+  );
+};
 
-                                        }}>
-                                            {item.title}
-                                        </h3>
-                                        <p style={{ margin: '0 0 16px 0', fontSize: '14px', fontWeight: '600' }}>
-                                            ${item.price} USD
-                                        </p>
-                                    </div>
-                                    <Button
-                                        type="primary"
-                                        size="large"
-                                        block
-                                        style={{
-                                            backgroundColor: '#000',
-                                            borderColor: '#000',
-                                            fontWeight: '500',
-                                            height: '44px',
-                                            marginTop: 'auto'
-                                        }}
-                                        onClick={() => handleAddToCart(item)}
-                                    >
-                                        ADD TO CART
-                                    </Button>
-                                </div>
-                            </Card>
-                        </Col>
-                    ))}
-                </Row>
-            )}
-        </Navbar>
-    )
-}
-
-export default Wishlist
+export default Wishlist;
