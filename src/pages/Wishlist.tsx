@@ -14,7 +14,7 @@ const Wishlist: FC = () => {
     const wishItems = useTypedSelector(state => state.wish.itemsInWish);
     const sortedProducts = useSortedProducts(wishItems);
     const filteredProducts = useMemo(
-        () => filterProducts(sortedProducts, searchValue, priceRange),
+        () => filterProducts<IProduct>(sortedProducts, searchValue, priceRange),
         [sortedProducts, searchValue, priceRange]
     );
     const handleRemoveFromWish = (products: IProduct) => {
@@ -41,7 +41,6 @@ const Wishlist: FC = () => {
                                     display: 'flex',
                                     flexDirection: 'column'
                                 }}
-
                                 cover={
                                     <div style={{ position: 'relative', backgroundColor: '#f5f5f5' }}>
                                         <img

@@ -1,15 +1,23 @@
 import { Button, Modal } from 'antd'
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import { IProduct, CartItem } from '@/types/models'
 import { ICart } from '@/types/UI-interfaces'
-import { useAppDispatch, useTypedSelector } from '../hooks'
-import { clearCart, removeItemFromCart, updateQuantity } from '../store/reducers'
-import { routesNames } from '../constants'
+import { useAppDispatch, useSortedProducts, useTypedSelector } from '../../hooks'
+import { clearCart, removeItemFromCart, updateQuantity } from '../../store/reducers'
+import { routesNames } from '../../constants'
 import { Link } from 'react-router-dom'
+import { filterProducts } from '../../utils/filteredProducts';
 
 const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
     const dispatch = useAppDispatch()
     const items = useTypedSelector(state => state.cart)
+    const isCartEmpty = items.items.length === 0 || items.totalQuantity === 0
+    const totalPrice = items.totalAmount.toFixed(2)
+    const sortedProducts = useSortedProducts(items.items);
+    const filteredProducts = useMemo(
+        () => filterProducts<CartItem>(sortedProducts, '', { min: 0, max: Infinity }),
+        [sortedProducts]
+    );
     const handleRemoveFromCart = (products: IProduct) => {
         dispatch(removeItemFromCart(products));
     };
@@ -19,6 +27,29 @@ const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
     const handleClearCart = () => {
         dispatch(clearCart());
     };
+    const footerContent = isCartEmpty ?
+        <div>
+            <Button onClick={onCancel}>Close</Button>
+        </div> : (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <span style={{ fontWeight: 'bold', marginRight: '10px' }}>Total:</span>
+                    <span style={{ fontWeight: 'bold' }}>${totalPrice}</span>
+                </div>
+                <div>
+                    <Button onClick={handleClearCart} style={{ marginRight: '10px' }}>Clear Cart</Button>
+                    <Button onClick={onCancel} style={{ marginRight: '10px' }}>Close</Button>
+                    <Link to={routesNames.CART}>
+                        <Button style={{
+                            backgroundColor: '#000',
+                            borderColor: '#000',
+                            fontWeight: '500',
+                            color: '#fff'
+                        }}>Checkout</Button>
+                    </Link>
+                </div>
+            </div>
+        );
 
     return (
         <Modal
@@ -27,49 +58,16 @@ const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
             open={isModalVisible}
             onCancel={onCancel}
             footer={[
-                <div
-                    key="footer"
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        width: '100%',
-                    }}
-                >
-                    {items.items.length <= 0 || items.totalQuantity <= 0 ? (
-                        <div style={{ marginLeft: 'auto' }}>
-                            <Button onClick={onCancel}>Close</Button>
-                        </div>
-                    ) : (
-                        <>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <span style={{ fontWeight: 'bold', marginRight: '10px' }}>Total:</span>
-                                <span style={{ fontWeight: 'bold' }}>${items.totalAmount.toFixed(2)}</span>
-                            </div>
-                            <div>
-                                <Button onClick={handleClearCart} style={{ marginRight: '10px' }}>Clear Cart</Button>
-                                <Button onClick={onCancel}>Close</Button>
-                                <Link to={routesNames.CART}>
-                                    <Button style={{
-                                        marginLeft: '10px',
-                                        backgroundColor: '#000',
-                                        borderColor: '#000',
-                                        fontWeight: '500'
-                                    }} type="primary">Checkout</Button>
-                                </Link>
-                            </div>
-                        </>
-                    )}
-                </div>
+                footerContent
             ]}
         >
             {
-                items.items.length === 0 || items.totalQuantity === 0 ? (
+                isCartEmpty ? (
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <p style={{ fontStyle: 'italic' }}> Your cart is empty</p>
                     </div>
                 ) : (
-                    items.items.map((item: CartItem) => (
+                    filteredProducts.map((item) => (
                         <div
                             key={item.id}
                             style={{

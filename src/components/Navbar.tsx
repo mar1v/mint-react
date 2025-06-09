@@ -10,7 +10,7 @@ import {
     HeartOutlined
 } from '@ant-design/icons';
 import FormModal from './FormModal';
-import CartModal from './CartModal';
+import CartModal from './CartModal/CartModal';
 import { useAppDispatch, useTypedSelector } from '../hooks';
 import { routesNames } from '../constants';
 import { useNavigate } from 'react-router-dom';
@@ -40,6 +40,13 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+    const onSearch = (value: string) => dispatch(setSearchValue(value));
+    const onPriceRangeChange = (value: { min: number; max: number }) => {
+        dispatch(setPriceRange(value));
+    };
+    const onCategoryChange = (value: 'laptops' | 'smartphones') => {
+        dispatch(changeCategory(value));
+    };
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -75,14 +82,14 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
                                     key: '2-1',
                                     label: 'Laptop',
                                     onClick: () => {
-                                        dispatch(changeCategory('laptops'));
+                                        onCategoryChange('laptops');
                                     },
                                 },
                                 {
                                     key: '2-2',
                                     label: 'Smartphone',
                                     onClick: () => {
-                                        dispatch(changeCategory('smartphones'));
+                                        onCategoryChange('smartphones');
                                     },
                                 },
                             ]
@@ -146,9 +153,7 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
                                 borderRadius: 6,
                                 width: 70,
                             }}
-                            onChange={(value) => {
-                                dispatch(setPriceRange({ min: value ?? 0, max: priceRange.max }));
-                            }}
+                            onChange={(value) => onPriceRangeChange({ min: value ?? 0, max: priceRange.max })}
                         />
                         <InputNumber
                             value={priceRange.max}
@@ -163,9 +168,7 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
                                 borderRadius: 6,
                                 width: 70,
                             }}
-                            onChange={(value) => {
-                                dispatch(setPriceRange({ min: priceRange.min, max: value ?? 5000 }));
-                            }}
+                            onChange={(value) => onPriceRangeChange({ min: priceRange.min, max: value ?? 0 })}
                         />
                     </div>
                     <Slider
@@ -175,7 +178,7 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
                         step={10}
                         value={[priceRange.min, priceRange.max]}
                         onChange={([min, max]) => {
-                            dispatch(setPriceRange({ min, max }));
+                            onPriceRangeChange({ min, max });
                         }}
                         tooltip={{ open: false }}
                         trackStyle={[{ backgroundColor: '#1890ff' }]}
@@ -211,7 +214,7 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
                         value={searchValue}
                         size="large"
                         style={{ width: 300 }}
-                        onChange={(e) => dispatch(setSearchValue(e.target.value))}
+                        onChange={(e) => onSearch(e.target.value)}
                         enterButton={
                             <Button
                                 type="primary"
@@ -220,7 +223,7 @@ const Navbar: FC<{ children?: React.ReactNode }> = ({ children }) => {
                                     backgroundColor: '#595959',
                                     borderColor: '#595959',
                                 }}
-                                onClick={() => dispatch(setSearchValue(searchValue))}
+                                onClick={() => onSearch(searchValue)}
                             />
                         }
                     />

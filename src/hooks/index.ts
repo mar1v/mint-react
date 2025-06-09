@@ -12,7 +12,7 @@ export const useProductsQueryByCategory = (category: 'laptops' | 'smartphones') 
 
     return category === 'laptops' ? laptops : smartphones;
 };
-export const useSortedProducts = (products: IProduct[]) => {
+export const useSortedProducts = <ProductType extends IProduct>(products: ProductType[]) => {
     const { sortType } = useTypedSelector(state => state.filter);
 
     return useMemo(() => {
@@ -29,3 +29,4 @@ export const useSortedProducts = (products: IProduct[]) => {
         }
     }, [products, sortType]);
 };
+

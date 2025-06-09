@@ -7,7 +7,6 @@ import { setSortType, toggleItemInWish, addItemToCart } from '../store/reducers'
 import { filterProducts } from '../utils/filteredProducts';
 import { useSortedProducts } from '../hooks';
 
-
 const ContentList: FC = () => {
     const dispatch = useAppDispatch();
     const searchValue = useTypedSelector(state => state.filter.searchValue);
@@ -17,10 +16,9 @@ const ContentList: FC = () => {
     const { data: products = [], isLoading } = useProductsQueryByCategory(category);
     const sortedProducts = useSortedProducts(products);
     const filteredProducts = useMemo(
-        () => filterProducts(sortedProducts, searchValue, priceRange),
+        () => filterProducts<IProduct>(sortedProducts, searchValue, priceRange),
         [sortedProducts, searchValue, priceRange]
     );
-
     const isProductInWishlist = (productId: number) => {
         return wishItems.some((item: IProduct) => item.id === productId);
     };
@@ -66,16 +64,17 @@ const ContentList: FC = () => {
                                     hoverable
                                     variant="borderless"
                                     style={{ height: '100%', position: 'relative', minHeight: '370px' }}
-                                    cover={product.images?.[0] && (
+                                    cover={product.images && (
                                         <img
                                             alt={product.title}
                                             src={product.images[0]}
                                             style={{
                                                 height: '200px',
-                                                objectFit: 'cover',
                                                 width: '100%',
+                                                objectFit: 'contain',
                                                 borderTopLeftRadius: '8px',
                                                 borderTopRightRadius: '8px',
+                                                padding: '5px'
                                             }}
                                         />
                                     )}
