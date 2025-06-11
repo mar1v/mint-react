@@ -2,20 +2,19 @@ import { IProduct } from '#types/models';
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Card, Col, Row } from 'antd';
 import { FC, useMemo } from 'react';
-import Navbar from '../components/Navbar';
 import { useAppDispatch, useSortedProducts, useTypedSelector } from '../hooks';
 import { addItemToCart, removeItemFromWish } from '../store/reducers';
 import { filterProducts } from '../utils/filteredProducts';
 
-const Wishlist: FC = () => {
+export const Wishlist: FC = () => {
   const dispatch = useAppDispatch();
-  const searchValue = useTypedSelector((state) => state.filter.searchValue);
+  const appliedSearch = useTypedSelector((state) => state.filter.appliedSearchValue);
   const priceRange = useTypedSelector((state) => state.filter.priceRange);
-  const wishItems = useTypedSelector((state) => state.wish.itemsInWish);
+  const wishItems = useTypedSelector((state) => state.wish.itemsInWishList);
   const sortedProducts = useSortedProducts(wishItems);
   const filteredProducts = useMemo(
-    () => filterProducts<IProduct>(sortedProducts, searchValue, priceRange),
-    [sortedProducts, searchValue, priceRange],
+    () => filterProducts<IProduct>(sortedProducts, appliedSearch, priceRange),
+    [sortedProducts, appliedSearch, priceRange],
   );
   const handleRemoveFromWish = (products: IProduct) => {
     dispatch(removeItemFromWish(products));
@@ -25,7 +24,7 @@ const Wishlist: FC = () => {
   };
 
   return (
-    <Navbar>
+    <>
       {filteredProducts.length === 0 ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <p style={{ fontStyle: 'italic' }}> Your wish list is empty</p>
@@ -106,8 +105,6 @@ const Wishlist: FC = () => {
           ))}
         </Row>
       )}
-    </Navbar>
+    </>
   );
 };
-
-export default Wishlist;

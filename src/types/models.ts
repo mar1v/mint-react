@@ -11,19 +11,22 @@ export interface IProduct {
   images: string[];
   category: string;
 }
-
+export interface ICart {
+  isModalVisible: boolean;
+  onCancel: () => void;
+}
 export interface CartItem extends IProduct {
   quantity: number;
 }
 
 export interface CartState {
-  items: CartItem[];
+  itemsInCart: CartItem[];
   totalQuantity: number;
   totalAmount: number;
 }
 
 export interface WishState {
-  itemsInWish: IProduct[];
+  itemsInWishList: IProduct[];
 }
 
 export interface FilterState {
@@ -33,6 +36,7 @@ export interface FilterState {
   };
   sortType: string;
   searchValue: string;
+  appliedSearchValue: string;
 }
 
 export interface CategoryState {

@@ -1,14 +1,19 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
-import { mainPage } from '../router'
-import { routesNames } from '../constants'
+import AppLayout from '#components/AppLayout';
+import { routesNames } from '#constants';
+import { Cart, Shop, Wishlist } from '#pages';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 const AppRouter = () => {
-    return (
-        <Routes>
-            {mainPage.map(route => <Route key={route.path} path={route.path} element={<route.component />} />)}
-            <Route path='*' element={<Navigate to={routesNames.SHOP} replace />} />
-        </Routes>
-    )
-}
+  return (
+    <Routes>
+      <Route element={<AppLayout />}>
+        <Route path={routesNames.SHOP} element={<Shop />} />
+        <Route path={routesNames.WISHLIST} element={<Wishlist />} />
+        <Route path={routesNames.CART} element={<Cart />} />
+        <Route path="*" element={<Navigate to={routesNames.SHOP} replace />} />
+      </Route>
+    </Routes>
+  );
+};
 
-export default AppRouter
+export default AppRouter;

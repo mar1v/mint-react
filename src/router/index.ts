@@ -1,8 +1,6 @@
-import Shop from '../pages/Shop'
-import Cart from '../pages/Cart'
-import Wishlist from '../pages/Wishlist'
-import { IRoute } from '../types/UI-interfaces'
-import { routesNames } from '../constants'
+import { routesNames } from '#constants'
+import { Cart, Shop, Wishlist } from '#pages'
+import { IRoute } from '#types/ui'
 
 export const mainPage: IRoute[] = [
     { path: routesNames.SHOP, component: Shop },

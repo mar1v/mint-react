@@ -5,6 +5,7 @@ const initialState: FilterState = {
   priceRange: { min: 0, max: 5000 },
   sortType: '',
   searchValue: '',
+  appliedSearchValue: '',
 };
 
 export const filterSlice = createSlice({
@@ -20,8 +21,11 @@ export const filterSlice = createSlice({
     setSearchValue: (state, action: PayloadAction<string>) => {
       state.searchValue = action.payload;
     },
+    setAppliedSearchValue(state, action: PayloadAction<string>) {
+     state.appliedSearchValue = action.payload;
+   }
   },
 });
 
-export const { setPriceRange, setSortType, setSearchValue } = filterSlice.actions;
+export const { setPriceRange, setSortType, setSearchValue, setAppliedSearchValue } = filterSlice.actions;
 export const filterReducer = filterSlice.reducer;

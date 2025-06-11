@@ -1,11 +1,5 @@
-import React, { FC } from 'react'
+import { FC } from 'react';
 
-const Cart: FC = () => {
-    return (
-        <div>
-            dasdsa
-        </div>
-    )
-}
-
-export default Cart
+export const Cart: FC = () => {
+  return <h1>asd</h1>;
+};

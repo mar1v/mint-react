@@ -1,13 +1,6 @@
-import Navbar from '../components/Navbar';
-import ContentList from '../components/ContentList';
-import React, { FC } from 'react'
+import ContentList from '#components/ContentList/ContentList';
+import { FC } from 'react';
 
-const Shop: FC = () => {
-    return (
-        <Navbar>
-            <ContentList />
-        </Navbar>
-    )
-}
-
-export default Shop;
+export const Shop: FC = () => {
+  return <ContentList />;
+};
