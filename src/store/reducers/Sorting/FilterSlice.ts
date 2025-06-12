@@ -1,7 +1,7 @@
-import { FilterState } from '#types/models';
+import { IFilterState } from '#types/models';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: FilterState = {
+const initialState: IFilterState = {
   priceRange: { min: 0, max: 5000 },
   sortType: '',
   searchValue: '',

@@ -15,21 +15,21 @@ export interface ICart {
   isModalVisible: boolean;
   onCancel: () => void;
 }
-export interface CartItem extends IProduct {
+export interface ICartItem extends IProduct {
   quantity: number;
 }
 
-export interface CartState {
-  itemsInCart: CartItem[];
+export interface ICartState {
+  itemsInCart: ICartItem[];
   totalQuantity: number;
   totalAmount: number;
 }
 
-export interface WishState {
+export interface IWishListState {
   itemsInWishList: IProduct[];
 }
 
-export interface FilterState {
+export interface IFilterState {
   priceRange: {
     min: number;
     max: number;
@@ -39,7 +39,7 @@ export interface FilterState {
   appliedSearchValue: string;
 }
 
-export interface CategoryState {
+export interface ICategoryState {
   category: 'laptops' | 'smartphones';
   items: IProduct[];
 }

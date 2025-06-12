@@ -1,4 +1,4 @@
-import AppLayout from '#components/AppLayout';
+import { AppLayout } from '#components/AppLayout/AppLayout';
 import { routesNames } from '#constants';
 import { Cart, Shop, Wishlist } from '#pages';
 import { Navigate, Route, Routes } from 'react-router-dom';

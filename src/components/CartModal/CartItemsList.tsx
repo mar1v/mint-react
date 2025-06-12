@@ -1,10 +1,10 @@
-import { CartItem, IProduct } from '#types/models';
+import { ICartItem, IProduct } from '#types/models';
 import { FC } from 'react';
 import { CartItems } from './CartItems';
 
 interface CartItemsListProps {
   isCartEmpty: boolean;
-  itemsInCart: CartItem[];
+  itemsInCart: ICartItem[];
   handleRemoveFromCart: (product: IProduct) => void;
   handleUpdateQuantity: (id: number, quantity: number) => void;
 }

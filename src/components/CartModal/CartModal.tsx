@@ -1,19 +1,19 @@
 import { useAppDispatch, useSortedProducts, useTypedSelector } from '#hooks';
 import { clearCart, removeItemFromCart, updateQuantity } from '#store/reducers';
-import { CartItem, ICart, IProduct } from '#types/models';
+import { ICart, ICartItem, IProduct } from '#types/models';
 import { filterProducts } from '#utils/filteredProducts';
 import { Modal } from 'antd';
 import { FC, useMemo } from 'react';
 import { CartFooter, CartItemsList } from './';
 
-const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
+export const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
   const dispatch = useAppDispatch();
   const itemsInCart = useTypedSelector((state) => state.cart.itemsInCart);
   const totalQuantity = useTypedSelector((state) => state.cart.totalQuantity);
   const totalPrice = useTypedSelector((state) => state.cart.totalAmount.toFixed(2));
   const isCartEmpty = itemsInCart.length === 0 || totalQuantity === 0;
   const sortedProducts = useSortedProducts(itemsInCart);
-  const filteredProducts = useMemo(() => filterProducts<CartItem>(sortedProducts, '', { min: 0, max: Infinity }), [sortedProducts]);
+  const filteredProducts = useMemo(() => filterProducts<ICartItem>(sortedProducts, '', { min: 0, max: Infinity }), [sortedProducts]);
 
   const handleRemoveFromCart = (product: IProduct) => {
     dispatch(removeItemFromCart(product));

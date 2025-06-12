@@ -1,7 +1,7 @@
-import { CategoryState } from '#types/models';
+import { ICategoryState } from '#types/models';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: CategoryState = {
+const initialState: ICategoryState = {
   category: 'laptops',
   items: [],
 };

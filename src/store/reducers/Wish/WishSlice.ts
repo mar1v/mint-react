@@ -1,7 +1,7 @@
-import { IProduct, WishState } from '#types/models';
+import { IProduct, IWishListState } from '#types/models';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: WishState = {
+const initialState: IWishListState = {
   itemsInWishList: [],
 };
 

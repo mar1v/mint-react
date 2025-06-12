@@ -1,10 +1,10 @@
-import { CartItem } from '#types/models';
+import { ICartItem } from '#types/models';
 import { Button } from 'antd';
 import { FC } from 'react';
 
 interface CartItemProps {
-  item: CartItem;
-  handleRemoveFromCart: (item: CartItem) => void;
+  item: ICartItem;
+  handleRemoveFromCart: (item: ICartItem) => void;
   handleUpdateQuantity: (id: number, quantity: number) => void;
 }
 
