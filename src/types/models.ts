@@ -43,3 +43,22 @@ export interface ICategoryState {
   category: 'laptops' | 'smartphones';
   items: IProduct[];
 }
+export interface City {
+  Description: string;
+  Ref: string;
+}
+
+export interface Warehouse {
+  Description: string;
+  Ref: string;
+}
+
+export interface IShippingState {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  postalCode: string;
+  city: City | null;
+  warehouse: Warehouse | null;
+}

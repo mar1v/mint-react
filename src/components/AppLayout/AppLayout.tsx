@@ -35,8 +35,8 @@ export const AppLayout: FC = () => {
         onPriceRangeChange={onPriceRangeChange}
         setIsModalFormVisible={setIsModalFormVisible}
         setIsModalCartVisible={setIsModalCartVisible}
+        isNotOnProducts={isNotOnProducts}
       />
-
       <Layout>
         <AppHeader
           collapsed={collapsed}
@@ -58,9 +58,7 @@ export const AppLayout: FC = () => {
           <Outlet />
         </Layout.Content>
       </Layout>
-
       <FormModal visible={isModalFormVisible} onCancel={() => setIsModalFormVisible(false)} />
-
       <CartModal isModalVisible={isModalCartVisible} onCancel={() => setIsModalCartVisible(false)} />
     </Layout>
   );

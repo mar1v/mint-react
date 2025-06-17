@@ -13,6 +13,7 @@ interface AppSiderProps {
   onPriceRangeChange: (value: { min: number; max: number }) => void;
   setIsModalFormVisible: (visible: boolean) => void;
   setIsModalCartVisible: (visible: boolean) => void;
+  isNotOnProducts: boolean;
 }
 
 const siderStyle: React.CSSProperties = {
@@ -34,6 +35,7 @@ export const AppSider: FC<AppSiderProps> = ({
   onPriceRangeChange,
   setIsModalFormVisible,
   setIsModalCartVisible,
+  isNotOnProducts,
 }) => {
   const navigate = useNavigate();
 
@@ -83,7 +85,7 @@ export const AppSider: FC<AppSiderProps> = ({
     <Layout.Sider style={siderStyle} trigger={null} collapsible collapsed={collapsed}>
       <Menu theme="dark" mode="inline" selectable={false} items={menuItems} />
 
-      <PriceFilter collapsed={collapsed} priceRange={priceRange} onPriceRangeChange={onPriceRangeChange} />
+      <PriceFilter isNotOnProducts={isNotOnProducts} collapsed={collapsed} priceRange={priceRange} onPriceRangeChange={onPriceRangeChange} />
     </Layout.Sider>
   );
 };

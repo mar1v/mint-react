@@ -1,10 +1,11 @@
 import { useAppDispatch, useSortedProducts, useTypedSelector } from '#hooks';
-import { clearCart, removeItemFromCart, updateQuantity } from '#store/reducers';
+import { removeItemFromCart, updateQuantity } from '#store/reducers';
 import { ICartItem, IProduct } from '#types/models';
 import { filterProducts } from '#utils/filteredProducts';
-import { Layout, Row } from 'antd';
+import { Button, Col, Layout, Row } from 'antd';
 import { FC, useMemo } from 'react';
-import { CheckoutProductList } from './CheckoutProductList';
+import { Link } from 'react-router-dom';
+import { CheckoutProductList, CheckoutShippingInfo } from './';
 
 export const Checkout: FC = () => {
   const dispatch = useAppDispatch();
@@ -23,20 +24,39 @@ export const Checkout: FC = () => {
     dispatch(updateQuantity({ id: productId, quantity }));
   };
 
-  const handleClearCart = () => {
-    dispatch(clearCart());
-  };
+  if (isCartEmpty) {
+    return (
+      <div className="min-h-96 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-8">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-3">Your cart is empty</h2>
+          <Link to="/">
+            <Button type="primary" size="large" className="bg-black border-black hover:bg-gray-800 px-8 py-2 h-auto">
+              Continue Shopping
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
   return (
     <Layout.Content>
-      <Row justify="center" align="middle" style={{ height: '100%' }}>
-        <CheckoutProductList
-          isCartEmpty={isCartEmpty}
-          itemsInCart={filteredProducts}
-          handleRemoveFromCart={handleRemoveFromCart}
-          handleUpdateQuantity={handleUpdateQuantity}
-          handleClearCart={handleClearCart}
-          totalPrice={totalPrice}
-        />
+      <Row justify="center" gutter={16}>
+        <Col xs={24} md={16}>
+          <div className="pt-6">
+            <h2 className="text-2xl font-semibold text-gray-900">Shipping</h2>
+            <CheckoutShippingInfo />
+          </div>
+        </Col>
+        <Col xs={24} md={8}>
+          <div className="pt-6">
+            <CheckoutProductList
+              itemsInCart={filteredProducts}
+              handleRemoveFromCart={handleRemoveFromCart}
+              handleUpdateQuantity={handleUpdateQuantity}
+              totalPrice={totalPrice}
+            />
+          </div>
+        </Col>
       </Row>
     </Layout.Content>
   );
