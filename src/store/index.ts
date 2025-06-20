@@ -1,4 +1,5 @@
 import { novaposhtaApi } from '#api/novaPoshtaApi';
+import { usersApi } from '#api/usersApi';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { productsApi } from '../api/productsApi';
 import { reducers } from './reducers/reducers';
@@ -7,7 +8,7 @@ export const rootReducer = combineReducers(reducers);
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(productsApi.middleware, novaposhtaApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(productsApi.middleware, novaposhtaApi.middleware, usersApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

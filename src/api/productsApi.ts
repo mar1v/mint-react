@@ -2,7 +2,7 @@ import { IProduct } from '#types/models';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const CATEGORY_PATH = 'products/category';
-const baseUrl = `${import.meta.env.VITE_API_URL}/${CATEGORY_PATH}`;
+const baseUrl = `${import.meta.env.VITE_API_DUMMY_URL}/${CATEGORY_PATH}`;
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',

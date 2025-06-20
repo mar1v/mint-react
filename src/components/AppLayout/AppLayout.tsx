@@ -1,15 +1,16 @@
 import { CartModal } from '#components/CartModal';
-import { FormModal } from '#components/FormModal';
+import LoginForm from '#components/LoginForm';
 import { useAppLayout } from '#hooks';
 import { Layout } from 'antd';
 import { FC, useState } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
-import { AppHeader, AppSider } from './';
+import { AppHeader } from './AppHeader';
+import { AppSider } from './AppSider';
 
 export const AppLayout: FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [isModalFormVisible, setIsModalFormVisible] = useState(false);
   const [isModalCartVisible, setIsModalCartVisible] = useState(false);
+  const [isModalLoginVisible, setIsModalLoginVisible] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const {
@@ -33,8 +34,8 @@ export const AppLayout: FC = () => {
         priceRange={priceRange}
         onCategoryChange={onCategoryChange}
         onPriceRangeChange={onPriceRangeChange}
-        setIsModalFormVisible={setIsModalFormVisible}
         setIsModalCartVisible={setIsModalCartVisible}
+        setIsModalLoginVisible={setIsModalLoginVisible}
         isNotOnProducts={isNotOnProducts}
       />
       <Layout>
@@ -58,7 +59,7 @@ export const AppLayout: FC = () => {
           <Outlet />
         </Layout.Content>
       </Layout>
-      <FormModal visible={isModalFormVisible} onCancel={() => setIsModalFormVisible(false)} />
+      <LoginForm visible={isModalLoginVisible} onCancel={() => setIsModalLoginVisible(false)} />
       <CartModal isModalVisible={isModalCartVisible} onCancel={() => setIsModalCartVisible(false)} />
     </Layout>
   );

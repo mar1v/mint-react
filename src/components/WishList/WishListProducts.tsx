@@ -4,7 +4,7 @@ import { IProduct } from '#types/models';
 import { filterProducts } from '#utils/filteredProducts';
 import { Row } from 'antd';
 import { FC, useMemo } from 'react';
-import { WishListCard } from './';
+import { WishListCard } from './WishListCard';
 
 export const WishListProducts: FC = () => {
   const dispatch = useAppDispatch();

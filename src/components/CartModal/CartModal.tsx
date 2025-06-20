@@ -4,7 +4,8 @@ import { ICart, ICartItem, IProduct } from '#types/models';
 import { filterProducts } from '#utils/filteredProducts';
 import { Modal } from 'antd';
 import { FC, useMemo } from 'react';
-import { CartFooter, CartItemsList } from './';
+import { CartFooter } from './CartFooter';
+import { CartItemsList } from './CartItemsList';
 
 export const CartModal: FC<ICart> = ({ isModalVisible, onCancel }) => {
   const dispatch = useAppDispatch();

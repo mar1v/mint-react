@@ -1,6 +1,7 @@
 import { ICartItem, IProduct } from '#types/models';
 import { FC } from 'react';
-import { CheckoutProduct, CheckoutSummary } from './';
+import { CheckoutProduct } from './CheckoutProduct';
+import { CheckoutSummary } from './CheckoutSummary';
 
 interface CheckoutProductListProps {
   itemsInCart: ICartItem[];

@@ -1,7 +1,10 @@
 import { routesNames } from '#constants';
+import { useTypedSelector } from '#hooks';
+import { logout } from '#store/reducers';
 import { HeartOutlined, MenuOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
 import { Badge, Layout, Menu } from 'antd';
 import { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { PriceFilter } from './PriceFilter';
 
@@ -11,8 +14,8 @@ interface AppSiderProps {
   priceRange: { min: number; max: number };
   onCategoryChange: (value: 'laptops' | 'smartphones') => void;
   onPriceRangeChange: (value: { min: number; max: number }) => void;
-  setIsModalFormVisible: (visible: boolean) => void;
   setIsModalCartVisible: (visible: boolean) => void;
+  setIsModalLoginVisible: (visible: boolean) => void;
   isNotOnProducts: boolean;
 }
 
@@ -33,19 +36,36 @@ export const AppSider: FC<AppSiderProps> = ({
   priceRange,
   onCategoryChange,
   onPriceRangeChange,
-  setIsModalFormVisible,
   setIsModalCartVisible,
+  setIsModalLoginVisible,
   isNotOnProducts,
 }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = useTypedSelector((state) => state.auth.token);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem('token');
+    navigate(routesNames.SHOP);
+  };
 
   const menuItems = [
-    {
-      key: '1',
-      icon: <UserOutlined />,
-      label: 'Sign in',
-      onClick: () => setIsModalFormVisible(true),
-    },
+    !token
+      ? {
+          key: '1',
+          icon: <UserOutlined />,
+          label: 'Sign in',
+          onClick: () => {
+            setIsModalLoginVisible(true);
+          },
+        }
+      : {
+          key: '1',
+          icon: <UserOutlined />,
+          label: 'Logout',
+          onClick: handleLogout,
+        },
     {
       key: '2',
       icon: <MenuOutlined />,
@@ -84,7 +104,6 @@ export const AppSider: FC<AppSiderProps> = ({
   return (
     <Layout.Sider style={siderStyle} trigger={null} collapsible collapsed={collapsed}>
       <Menu theme="dark" mode="inline" selectable={false} items={menuItems} />
-
       <PriceFilter isNotOnProducts={isNotOnProducts} collapsed={collapsed} priceRange={priceRange} onPriceRangeChange={onPriceRangeChange} />
     </Layout.Sider>
   );

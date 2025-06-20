@@ -49,7 +49,7 @@ export const AppHeader: FC<AppHeaderProps> = ({
         value={searchValue}
         size="large"
         allowClear
-        className="w-[300px] ant-input-lg"
+        className="w-96 ant-input-lg"
         onChange={(e) => onSearchChange(e.target.value)}
         onSearch={handleSearch}
         enterButton={<Button type="primary" icon={<SearchOutlined />} style={{ backgroundColor: '#595959', borderColor: '#595959' }} />}

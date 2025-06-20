@@ -3,7 +3,6 @@ import { HeartFilled, HeartOutlined } from '@ant-design/icons';
 import { Button, Card, Col } from 'antd';
 import { FC } from 'react';
 import { ProductImage } from './ProductImage';
-import { ProductInfo } from './ProductInfo';
 
 interface ProductCardProps {
   product: IProduct;
@@ -16,7 +15,10 @@ export const ProductCard: FC<ProductCardProps> = ({ product, isProductInWishlist
   return (
     <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
       <Card type="inner" hoverable variant="borderless" className="h-full relative min-h-96" cover={<ProductImage product={product} />}>
-        <ProductInfo product={product} />
+        <span className="font-bold flex absolute left-4 top-52">{product.title}</span>
+        <br />
+        <span className="absolute left-4 top-64 w-[85%] line-clamp-2">{product.description}</span>
+        <p className="font-bold flex absolute bottom-4 left-4">${product.price.toFixed(2)}</p>
         <Button
           type="primary"
           onClick={() => cartAddCartHandler(product)}

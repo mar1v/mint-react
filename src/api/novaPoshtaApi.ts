@@ -1,8 +1,8 @@
 import { City, Warehouse } from '#types/models';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const API_KEY = import.meta.env.VITE_API_KEY;
-const baseUrl = import.meta.env.VITE_API_NOVA_POSHTA_URL;
+const API_KEY = import.meta.env.VITE_API_NP_KEY;
+const baseUrl = import.meta.env.VITE_API_NP_URL;
 
 export const novaposhtaApi = createApi({
   reducerPath: 'novaposhtaApi',
@@ -16,7 +16,7 @@ export const novaposhtaApi = createApi({
   endpoints: (builder) => ({
     getCities: builder.query<City[], string>({
       query: (search) => ({
-        url: '', 
+        url: '',
         method: 'POST',
         body: {
           apiKey: API_KEY,
@@ -32,7 +32,7 @@ export const novaposhtaApi = createApi({
 
     getWarehouses: builder.query<Warehouse[], string>({
       query: (cityRef) => ({
-        url: '', 
+        url: '',
         method: 'POST',
         body: {
           apiKey: API_KEY,
@@ -48,9 +48,4 @@ export const novaposhtaApi = createApi({
   }),
 });
 
-export const {
-  useGetCitiesQuery,
-  useLazyGetCitiesQuery,
-  useGetWarehousesQuery,
-  useLazyGetWarehousesQuery,
-} = novaposhtaApi;
+export const { useGetCitiesQuery, useLazyGetCitiesQuery, useGetWarehousesQuery, useLazyGetWarehousesQuery } = novaposhtaApi;

@@ -2,13 +2,13 @@ import { ICartItem } from '#types/models';
 import { Button } from 'antd';
 import { FC } from 'react';
 
-interface CartItemProps {
+interface CartItemsProps {
   item: ICartItem;
   handleRemoveFromCart: (item: ICartItem) => void;
   handleUpdateQuantity: (id: number, quantity: number) => void;
 }
 
-export const CartItems: FC<CartItemProps> = ({ item, handleRemoveFromCart, handleUpdateQuantity }) => {
+export const CartItems: FC<CartItemsProps> = ({ item, handleRemoveFromCart, handleUpdateQuantity }) => {
   return (
     <div key={item.id} className="flex justify-between items-center mb-2">
       <div className="flex items-center">

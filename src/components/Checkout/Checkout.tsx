@@ -5,7 +5,8 @@ import { filterProducts } from '#utils/filteredProducts';
 import { Button, Col, Layout, Row } from 'antd';
 import { FC, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckoutProductList, CheckoutShippingInfo } from './';
+import { CheckoutProductList } from './CheckoutProductList';
+import { CheckoutShippingInfo } from './CheckoutShippingInfo';
 
 export const Checkout: FC = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +31,7 @@ export const Checkout: FC = () => {
         <div className="text-center max-w-md mx-auto p-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-3">Your cart is empty</h2>
           <Link to="/">
-            <Button type="primary" size="large" className="bg-black border-black hover:bg-gray-800 px-8 py-2 h-auto">
+            <Button type="primary" size="large" className="bg-black border-black font-medium px-8 py-2 h-auto">
               Continue Shopping
             </Button>
           </Link>
