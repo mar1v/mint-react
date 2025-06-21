@@ -1,11 +1,6 @@
-import React, { FC } from 'react'
+import ContentList from '#components/ContentList/ContentList';
+import { FC } from 'react';
 
-const Shop: FC = () => {
-    return (
-        <div>
-
-        </div>
-    )
-}
-
-export default Shop;
+export const Shop: FC = () => {
+  return <ContentList />;
+};
